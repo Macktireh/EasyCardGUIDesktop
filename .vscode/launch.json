@@ -1,0 +1,41 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Application",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/main.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Ruff Fix",
+      "type": "python",
+      "request": "launch",
+      "module": "ruff",
+      "args": ["--fix", "--exit-zero", "."],
+      "console": "internalConsole",
+      "justMyCode": true
+    },
+    {
+      "name": "Ruff Format",
+      "type": "python",
+      "request": "launch",
+      "module": "ruff",
+      "args": ["format", "."],
+      "console": "internalConsole"
+    },
+    {
+      "name": "Ruff Check",
+      "type": "python",
+      "request": "launch",
+      "module": "ruff",
+      "args": ["check", "."],
+      "console": "internalConsole"
+    }
+  ]
+}

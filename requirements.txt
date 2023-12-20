@@ -1,0 +1,5 @@
+customtkinter
+CTkToolTip
+matplotlib
+packaging
+Pillow
