@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Callable, Literal
 
 from customtkinter import CTkBaseClass, CTkButton, CTkFont, CTkImage
 
@@ -20,6 +20,7 @@ class Button(CTkButton):
         height: int = 50,
         image: imagesTupple | str | None = None,
         imageSize: tuple = (20, 20),
+        command: Callable = lambda: print("Button pressed!"),
         *args,
         **kwargs,
     ) -> None:
@@ -40,6 +41,7 @@ class Button(CTkButton):
             "text": self.text,
             "font": CTkFont(family=self.fontFamily, size=self.fontSize, weight=self.fontWeight),
             "text_color": Color.TEXT,
+            "command": command,
         }
 
         self._image = Image(image=self.image, size=imageSize)

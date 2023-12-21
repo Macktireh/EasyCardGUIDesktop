@@ -29,8 +29,8 @@ class Color:
     BG_CONTENT = ("#e0e0ff", "#2b2b31")
     BG_NAVIGATION = ("#d2d2fe", "#333338")
     BG_BUTTON_NAVIGATION = "transparent"
-    BG_ACTIVE_BUTTON__NAVIGATION = ("#5d5d98", "#545473")
-    BG_HOVER_BUTTON = ("#6e6eaa", "#65658b")
+    BG_ACTIVE_BUTTON_NAVIGATION = ("#5d5d98", "#545473")
+    BG_HOVER_BUTTON_NAVIGATION = ("#6e6eaa", "#65658b")
     BG_CARD = ("#ccccff", "#31313a")
     LIST_BG_PIE = (
         ["#6a6aa9", "#7a7ab8", "#5d5d98", "#5c5c8a", "#595978"],

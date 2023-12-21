@@ -1,4 +1,7 @@
-from customtkinter import CTkBaseClass, CTkFrame, CTkLabel
+from customtkinter import CTkBaseClass, CTkFrame
+
+from components.ui import Button, Label
+from config.settings import ScreenName
 
 
 class NewCardScreen(CTkFrame):
@@ -13,5 +16,9 @@ class NewCardScreen(CTkFrame):
             corner_radius=0,
         )
 
-        self.label = CTkLabel(self, text="New Card")
+        self.label = Label(self, text="New Card")
         self.label.pack()
+
+        self.button = Button(self, text="Button")
+        self.button = Button(self, text="Button", command=lambda: self.master.navigate(ScreenName.DASHBOARD))
+        self.button.pack()

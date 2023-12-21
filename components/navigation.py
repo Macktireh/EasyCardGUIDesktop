@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Literal, Tuple
 
 from customtkinter import (
     CTkBaseClass,
@@ -69,8 +69,8 @@ class Navigation(CTkFrame):
             width=self.width * 0.9,
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.DASHBOARD),
-            fg_color=Color.BG_ACTIVE_BUTTON__NAVIGATION,
-            hover_color=Color.BG_HOVER_BUTTON,
+            fg_color=Color.BG_ACTIVE_BUTTON_NAVIGATION,
+            hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             image=self.DASHBOARD_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
@@ -82,7 +82,7 @@ class Navigation(CTkFrame):
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.NEW),
             fg_color=Color.BG_BUTTON_NAVIGATION,
-            hover_color=Color.BG_HOVER_BUTTON,
+            hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             image=self.NEW_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
@@ -94,7 +94,7 @@ class Navigation(CTkFrame):
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.DATA),
             fg_color=Color.BG_BUTTON_NAVIGATION,
-            hover_color=Color.BG_HOVER_BUTTON,
+            hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             image=self.DATA_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
@@ -106,7 +106,7 @@ class Navigation(CTkFrame):
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.SETTING),
             fg_color=Color.BG_BUTTON_NAVIGATION,
-            hover_color=Color.BG_HOVER_BUTTON,
+            hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             image=self.SETTING_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
@@ -118,8 +118,8 @@ class Navigation(CTkFrame):
             values=["Light", "Dark"],
             text_color=Color.TEXT,
             fg_color=Color.BG_CARD,
-            button_color=Color.BG_ACTIVE_BUTTON__NAVIGATION,
-            button_hover_color=Color.BG_ACTIVE_BUTTON__NAVIGATION,
+            button_color=Color.BG_ACTIVE_BUTTON_NAVIGATION,
+            button_hover_color=Color.BG_ACTIVE_BUTTON_NAVIGATION,
             dropdown_fg_color=Color.BG_CONTENT,
             command=self.toggleTheme,
             variable=self.optionTheme,
@@ -198,7 +198,7 @@ class Navigation(CTkFrame):
 
             # Configure the screen object
             navButtonCurrentScreen.configure(
-                fg_color=Color.BG_ACTIVE_BUTTON__NAVIGATION,
+                fg_color=Color.BG_ACTIVE_BUTTON_NAVIGATION,
                 image=Image(
                     imagesTupple(
                         light=_image,
@@ -232,18 +232,12 @@ class Navigation(CTkFrame):
                 image=Image(image_attr, size=self.SIZE_BUTTON),
             )
 
-    def toggleTheme(self, theme) -> None:
+    def toggleTheme(self, theme: Literal["light", "dark"]) -> None:
         """
         Toggles the theme of the application.
 
         Args:
-            theme (str): The theme to be set.
-
-        Returns:
-            None
-
-        Raises:
-            None
+            theme (str): The name of the theme to be toggled. Can be either 'light' or 'dark'.
         """
         self.optionTheme.set(theme)
         set_appearance_mode(theme)

@@ -1,16 +1,18 @@
 from customtkinter import CTk, StringVar
+from tkinterdnd2.TkinterDnD import DnDWrapper, _require
 
 from components import Navigation
 from config.settings import ScreenName
 from screens import ScreenManager
 
 
-class App(CTk):
+class App(CTk, DnDWrapper):
     width: int = 1200
     height: int = 700
 
     def __init__(self) -> None:
         super().__init__()
+        self.TkdndVersion = _require(self)
         self.title("EasyCreditCard")
         self.resizable(False, False)
         self.centerWindow()
@@ -46,3 +48,13 @@ class App(CTk):
             title (str): The title to be set.
         """
         self.title(f"EasyCreditCard - {title}")
+
+    def navigate(self, screen: str) -> None:
+        """
+        Navigate to a specific screen.
+
+        Args:
+            screen (str): The name of the screen to navigate to.
+        """
+        # print(screen, "from app.py")
+        self.navigation.navigate(screen)

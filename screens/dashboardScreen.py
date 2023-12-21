@@ -47,9 +47,9 @@ class DashboardScreen(CTkFrame):
         self.pieFrame.place(relx=0.005, rely=0.005, anchor="nw", relwidth=0.49, relheight=0.99)
         self.barFrame.place(relx=0.505, rely=0.005, anchor="nw", relwidth=0.49, relheight=0.99)
 
-        self.showChart()
+        self.renderChart()
 
-    def showChart(self) -> None:
+    def renderChart(self) -> None:
         x_values = ["A", "B", "C", "D", "E"]
         y_values_bar = [100, 200, 600, 400, 500]
         y_values_donut = [10, 40, 30, 20, 50]
@@ -68,9 +68,9 @@ class DashboardScreen(CTkFrame):
             x=x_values,
             y=y_values_bar,
             labelColor=(Color.WHITE, Color.WHITE) if self.currentTheme == "dark" else (Color.BLACK, Color.BLACK),
-            barColor=Color.BG_ACTIVE_BUTTON__NAVIGATION[1]
+            barColor=Color.BG_ACTIVE_BUTTON_NAVIGATION[1]
             if self.currentTheme == "dark"
-            else Color.BG_ACTIVE_BUTTON__NAVIGATION[0],
+            else Color.BG_ACTIVE_BUTTON_NAVIGATION[0],
         )
         self.pie.pack(fill="both", expand=True, padx=5, pady=5)
         self.bar.pack(fill="both", expand=True, padx=5, pady=5)
@@ -83,4 +83,4 @@ class DashboardScreen(CTkFrame):
             self.pie.destroy()
             self.bar.destroy()
             self.currentTheme = _currentTheme
-            self.showChart()
+            self.renderChart()

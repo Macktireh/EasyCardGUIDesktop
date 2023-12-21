@@ -3,3 +3,4 @@ CTkToolTip
 matplotlib
 packaging
 Pillow
+tkinterdnd2
