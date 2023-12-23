@@ -1,13 +1,16 @@
 import matplotlib.pyplot as plt
 from customtkinter import CTkBaseClass, CTkFrame
+from httpx import Client
 
 from config.settings import Color, ScreenName
-from models.types import RCParams
 from screens.dashboardScreen import DashboardScreen
 from screens.dataScreen import DataScreen
 from screens.newCardScreen import NewCardScreen
 from screens.settingScreen import SettingScreen
+from screens.splashScreen import SplashScreen
+from services.creditCardService import CreditCardService  # noqa: F401
 from services.matplotlibService import MatplotlibService
+from utils import rcParams
 
 
 class ScreenManager(CTkFrame):
@@ -24,8 +27,10 @@ class ScreenManager(CTkFrame):
             corner_radius=0,
         )
 
-        self.dashboardScreen = DashboardScreen(self, chartService=MatplotlibService(plt, **self.rcParamsHelper()))
-        self.newCardScreen = NewCardScreen(self)
+        self.dashboardScreen = DashboardScreen(
+            self, chartService=MatplotlibService(plt, **rcParams(self._get_appearance_mode()))
+        )
+        self.newCardScreen = NewCardScreen(self, creditCardService=CreditCardService(Client()))
         self.dataScreen = DataScreen(self)
         self.settingScreen = SettingScreen(self)
 
@@ -34,7 +39,7 @@ class ScreenManager(CTkFrame):
     def rentder(self, screen: str) -> None:
         """
         Renders the specified screen by hiding all other screens and packing the selected one.
-        
+
         Args:
             screen (str): The name of the screen to be rendered.
         """
@@ -52,27 +57,6 @@ class ScreenManager(CTkFrame):
             else:
                 screen_obj.pack_forget()
 
-    def rcParamsHelper(self) -> RCParams:
-        """
-        Generates the RCParams object for customizing the appearance of plots based on the current appearance mode.
-        
-        Returns:
-            RCParams: The RCParams object with the customized appearance settings.
-        """
-        appearance_mode = self._get_appearance_mode()
-        axesFaceColor = Color.BG_CARD[1] if appearance_mode == "dark" else Color.BG_CARD[0]
-        xTickColor = Color.WHITE if appearance_mode == "dark" else Color.BLACK
-        yTickColor = Color.WHITE if appearance_mode == "dark" else Color.BLACK
-
-        return RCParams(
-            axesFaceColor=axesFaceColor,
-            figureFaceColor=axesFaceColor,
-            savefigFaceColor=axesFaceColor,
-            axesEdgecolor=axesFaceColor,
-            xTickColor=xTickColor,
-            yTickColor=yTickColor,
-        )
-
     def changeScreen(self, screen: str) -> None:
         """
         Changes the current screen to the specified screen.
@@ -80,9 +64,19 @@ class ScreenManager(CTkFrame):
         Args:
             screen (str): The name of the screen to switch to.
         """
-        self.dashboardScreen.chartService = MatplotlibService(plt, **self.rcParamsHelper())
+        self.dashboardScreen.chartService = MatplotlibService(plt, **rcParams(self._get_appearance_mode()))
         self.dashboardScreen.updateCanvas()
         self.rentder(screen)
-    
+
     def navigate(self, screen: str) -> None:
         self.master.navigate(screen)
+
+
+__all__ = [
+    "ScreenManager",
+    "DashboardScreen",
+    "NewCardScreen",
+    "DataScreen",
+    "SettingScreen",
+    "SplashScreen",
+]

@@ -1,16 +1,23 @@
+from typing import Tuple
+
 from customtkinter import CTkBaseClass, CTkEntry, CTkFrame, CTkLabel
+
+from components.ui.separator import Separator
 
 
 class Input(CTkFrame):
     def __init__(
         self,
         master: CTkBaseClass,
-        label: str = "Input",
+        label: str | None = "Input",
         width: int = 300,
         height: int = 50,
         defaultValue: str = "",
         isPassword: bool = False,
         state: str = "normal",
+        sep: int = 0,
+        bgColor: str | Tuple[str, str] = "transparent",
+        entryBgColor: str | Tuple[str, str] = "transparent",
     ) -> None:
         self.master = master
         self.label = label
@@ -20,14 +27,18 @@ class Input(CTkFrame):
         self.isPassword = isPassword
         self.state = state
 
-        super().__init__(self.master, width=self.width, height=self.height)
+        super().__init__(self.master, width=self.width, height=self.height, fg_color=bgColor)
 
-        self.label = CTkLabel(self, text=self.label, width=self.width // 3)
-        self.label.pack(side="left", padx=5, pady=5)
+        if self.label:
+            self.label = CTkLabel(self, text=self.label, width=self.width // 3)
+            self.label.pack(side="left", expand=True)
+            Separator(self, width=sep).pack(side="left", expand=True)
 
-        self.entry = CTkEntry(self, width=(self.width * 3) // 3, state=self.state)
-        self.entry.pack(side="right", padx=5, pady=5)
+        self.entry = CTkEntry(self, width=(self.width * 3) // 3, fg_color=entryBgColor)
+        self.entry.pack(side="left", expand=True)
         self.entry.insert(0, self.defaultValue)
+        if self.state != "normal":
+            self.entry.configure(state=self.state)
 
         self.setPassword(self.isPassword)
 

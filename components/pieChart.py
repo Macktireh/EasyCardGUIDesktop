@@ -43,7 +43,6 @@ class PieChart(CTkFrame):
             **kwargs,
         )
 
-        # Seprater(self, width=15, height=15).pack()
         Label(self, text=self.title, fontSize=16, fontWeight="bold").pack(pady=5)
 
         self.showChart()
@@ -60,7 +59,7 @@ class PieChart(CTkFrame):
         self.canvas = FigureCanvasTkAgg(fig, master=self).get_tk_widget()
         self.canvas.pack(fill="both", expand=True)
 
-    def updateCanvas(self) -> None:
+    def updateThemeCanvas(self) -> None:
         _currentTheme = self._get_appearance_mode()
         if self.currentTheme != _currentTheme:
             self.canvas.destroy()

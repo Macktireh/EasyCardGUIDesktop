@@ -36,9 +36,20 @@ class MatplotlibService(ChartService):
         barColor: str = "skyblue",
         labelColor: Tuple[str, str] = ("black", "black"),
     ) -> Figure:
+        """
+        Plots a bar chart with the given data.
+
+        Args:
+            x: (Tuple[Any, ...] | Any): The x-values for the bar chart.
+            y: (Tuple[Number, ...] | Number): The y-values for the bar chart.
+            barColor: (str, optional): The color of the bars. Defaults to "skyblue".
+            labelColor: (Tuple[str, str], optional): The color of the axis labels. Defaults to ("black", "black").
+
+        Returns:
+            Figure: The generated bar chart figure.
+        """
         fig, ax = self.plt.subplots()
         bars = ax.bar(x, y, color=barColor)
-        # ax.set_title("Bar Chart", color=titleColor)
         ax.set_xlabel("X-axis", color=labelColor[0])
         ax.set_ylabel("Y-axis", color=labelColor[1])
 
@@ -64,11 +75,26 @@ class MatplotlibService(ChartService):
         listColors: Tuple[str, ...] | str | None = None,
         wedgeprops: Dict = None,
     ) -> Figure:
+        """
+        Generates a pie chart using the given data.
+
+        Args:
+            y: (Tuple[Number, ...] | Number): The data values for the pie chart.
+            labels: (Tuple[Any, ...] | Any): The labels for each data value.
+            labelColor: (str, optional): The color of the labels. Defaults to "black".
+            percentColor: (str, optional): The color of the percentage values. Defaults to "black".
+            listColors: (Tuple[str, ...] | str | None, optional): The colors for each wedge. 
+                        If None, a default color palette will be used. Defaults to None.
+            wedgeprops: (Dict, optional): Additional properties for the wedges. Defaults to None.
+
+        Returns:
+            Figure: The generated pie chart figure.
+        """
         if wedgeprops is None:
             wedgeprops = dict(width=0.6, edgecolor="w")
         fig, ax = self.plt.subplots()
 
-        colors = self.plt.cm.Set3.colors if listColors is None else listColors
+        colors = listColors or self.plt.cm.Set3.colors
         _, _labels, autopct = ax.pie(
             y,
             labels=labels,
@@ -81,7 +107,5 @@ class MatplotlibService(ChartService):
 
         for label in _labels:
             label.set_color(labelColor)
-
-        # ax.set_title("Donut Chart", color=titleColor)
 
         return fig

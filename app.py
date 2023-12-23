@@ -32,6 +32,7 @@ class App(CTk, DnDWrapper):
     def run(self) -> None:
         """Run the application."""
         self.mainloop()
+        self.quit()
 
     def centerWindow(self) -> None:
         """Center the application window on the screen."""

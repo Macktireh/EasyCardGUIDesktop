@@ -1,4 +1,4 @@
-from typing import Callable, Literal
+from typing import Callable, Literal, Tuple
 
 from customtkinter import CTkBaseClass, CTkButton, CTkFont, CTkImage
 
@@ -13,6 +13,7 @@ class Button(CTkButton):
         self,
         master: CTkBaseClass,
         text: str = "Button",
+        textColor: str | Tuple | None = Color.TEXT,
         fontFamily: str = "Arial",
         fontSize: int = 13,
         fontWeight: Literal["normal", "bold"] = "bold",
@@ -26,6 +27,7 @@ class Button(CTkButton):
     ) -> None:
         self.master = master
         self.text = text
+        self.textColor = textColor
         self.width = width
         self.height = height
         self.fontFamily = fontFamily
@@ -40,7 +42,7 @@ class Button(CTkButton):
             "height": self.height,
             "text": self.text,
             "font": CTkFont(family=self.fontFamily, size=self.fontSize, weight=self.fontWeight),
-            "text_color": Color.TEXT,
+            "text_color": self.textColor,
             "command": command,
         }
 

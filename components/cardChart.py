@@ -1,11 +1,10 @@
 from numbers import Number
 
+from CTkToolTip import CTkToolTip
 from customtkinter import CTkBaseClass, CTkFrame
 
-from components.ui import Label, Seprater
+from components.ui import Label, Separator
 from config.settings import Color
-
-# from config.settings import Images
 
 
 class Card(CTkFrame):
@@ -32,8 +31,13 @@ class Card(CTkFrame):
             corner_radius=10,
         )
 
-        # Label(self, text="", image=Images.LOGO, imageSize=(40, 40)).pack()
-        Seprater(self, width=15, height=15).pack()
-        Label(self, text=self.value, fontSize=40, fontWeight="bold").pack()
-        Label(self, text=self.text, fontSize=14, fontWeight="bold").pack()
-        Seprater(self, width=15, height=15).pack()
+        Separator(self, width=15, height=15).pack()
+        _value = Label(self, text=self.value, fontSize=40, fontWeight="bold")
+        _value.pack()
+        _text = Label(self, text=self.text, fontSize=14, fontWeight="bold")
+        _text.pack()
+        Separator(self, width=15, height=15).pack()
+
+        CTkToolTip(self, delay=0.3, message=self.value)
+        CTkToolTip(_value, delay=0.3, message=self.value)
+        CTkToolTip(_text, delay=0.3, message=self.value)
