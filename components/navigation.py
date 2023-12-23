@@ -1,5 +1,6 @@
 from typing import Literal, Tuple
 
+from CTkToolTip import CTkToolTip
 from customtkinter import (
     CTkBaseClass,
     CTkFrame,
@@ -8,9 +9,9 @@ from customtkinter import (
     set_appearance_mode,
 )
 
-from components.ui import Button, Image, Label, imagesTupple
-from components.ui.seprater import Seprater
-from config.settings import LIST_SCREEN, AssetsImages, Color, ScreenName
+from components.ui import Button, Image, Label
+from components.ui.separator import Separator
+from config.settings import LIST_SCREEN, AssetsImages, Color, ScreenName, imagesTupple
 
 
 class Navigation(CTkFrame):
@@ -75,6 +76,7 @@ class Navigation(CTkFrame):
             imageSize=self.SIZE_BUTTON,
             anchor="w",
         )
+        CTkToolTip(self.dashboard, delay=0.3, message=ScreenName.DASHBOARD_TITLE)
         self.newCard = Button(
             self.frame,
             text=f"  {ScreenName.NEW_TITLE}",
@@ -87,6 +89,7 @@ class Navigation(CTkFrame):
             imageSize=self.SIZE_BUTTON,
             anchor="w",
         )
+        CTkToolTip(self.newCard, delay=0.3, message=ScreenName.NEW_TITLE)
         self.data = Button(
             self.frame,
             text=f"  {ScreenName.DATA_TITLE}",
@@ -99,6 +102,7 @@ class Navigation(CTkFrame):
             imageSize=self.SIZE_BUTTON,
             anchor="w",
         )
+        CTkToolTip(self.data, delay=0.3, message=ScreenName.DATA_TITLE)
         self.setting = Button(
             self.frame,
             text=f"  {ScreenName.SETTING_TITLE}",
@@ -111,6 +115,7 @@ class Navigation(CTkFrame):
             imageSize=self.SIZE_BUTTON,
             anchor="w",
         )
+        CTkToolTip(self.setting, delay=0.3, message=ScreenName.SETTING_TITLE)
         self.optionTheme = StringVar(value=self._get_appearance_mode())
         self.selectorTheme = CTkOptionMenu(
             self.frame,
@@ -135,10 +140,11 @@ class Navigation(CTkFrame):
             image=self.EXIT_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
-            # compound="right",
         )
+        CTkToolTip(self.exit, delay=0.3, message="Exit")
 
         self.showWidgets()
+        self.updateCoderNavButtonActive()
 
     def showWidgets(self) -> None:
         """
@@ -155,26 +161,26 @@ class Navigation(CTkFrame):
         Returns:
             None: This function does not return anything.
         """
-        Seprater(self.frame, height=20).grid(row=0, column=0)
+        Separator(self.frame, height=20).grid(row=0, column=0)
         self.boxTitle.grid(row=1, column=0, sticky="ew")
 
         row = 2
-        Seprater(self.frame, height=50).grid(row=row, column=0)
+        Separator(self.frame, height=50).grid(row=row, column=0)
         self.dashboard.grid(row=row + 1, column=0, sticky="ew")
 
-        Seprater(self.frame).grid(row=row + 2, column=0)
+        Separator(self.frame).grid(row=row + 2, column=0)
         self.newCard.grid(row=row + 3, column=0, sticky="ew")
 
-        Seprater(self.frame).grid(row=row + 4, column=0)
+        Separator(self.frame).grid(row=row + 4, column=0)
         self.data.grid(row=row + 5, column=0, sticky="ew")
 
-        Seprater(self.frame).grid(row=row + 6, column=0)
+        Separator(self.frame).grid(row=row + 6, column=0)
         self.setting.grid(row=row + 7, column=0, sticky="ew")
 
-        Seprater(self.frame, height=180).grid(row=row + 8, column=0)
+        Separator(self.frame, height=180).grid(row=row + 8, column=0)
         self.selectorTheme.grid(row=row + 9, column=0, sticky="s")
 
-        Seprater(self.frame, height=16).grid(row=row + 10, column=0)
+        Separator(self.frame, height=16).grid(row=row + 10, column=0)
         self.exit.grid(row=row + 11, column=0, sticky="s")
 
     def navigate(self, screen: str) -> None:
@@ -272,3 +278,15 @@ class Navigation(CTkFrame):
             f"{ScreenName.SETTING}": (AssetsImages.SETTING_DARK, self.setting),
         }
         return screen_map.get(screen, (None, None))
+    
+    def updateCoderNavButtonActive(self) -> None:
+        image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen.get())
+        navButtonCurrentScreen.configure(
+            text_color=Color.WHITE,
+            image=Image(
+                imagesTupple(
+                    light=image,
+                    dark=image,
+                )
+            )
+        )

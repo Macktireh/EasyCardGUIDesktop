@@ -3,7 +3,7 @@ from components.ui.image import Image, imagesTupple
 from components.ui.input import Input
 from components.ui.label import Label
 from components.ui.progressBar import ProgressBar
-from components.ui.seprater import Seprater
+from components.ui.separator import Separator
 from components.ui.textarea import TextArea
 
 __all__ = [
@@ -13,6 +13,6 @@ __all__ = [
     "imagesTupple",
     "Label",
     "ProgressBar",
-    "Seprater",
+    "Separator",
     "TextArea",
 ]

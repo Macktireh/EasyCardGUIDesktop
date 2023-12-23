@@ -20,7 +20,7 @@ class DashboardScreen(CTkFrame):
             corner_radius=0,
         )
 
-        self.label = Label(self, text="General Statistics", fontSize=26, fontWeight="bold").pack(pady=10)
+        Label(self, text="General Statistics", fontSize=26, fontWeight="bold").pack(pady=10)
 
         self.container = CTkFrame(self, fg_color="transparent")
         self.container.pack(fill="both", expand=True)
@@ -28,15 +28,19 @@ class DashboardScreen(CTkFrame):
         # Cards
         self.cardFrame = CTkFrame(self.container, fg_color="transparent", width=700)
         self.numCard = Card(self.cardFrame, width=180, height=80)
-        self.numberRegisteredCard = Card(self.cardFrame, width=180, height=80)
-        self.numberRegisteredCard2 = Card(self.cardFrame, width=180, height=80)
-        self.numberRegisteredCard3 = Card(self.cardFrame, width=180, height=80)
+        self.numberRegisteredCard = Card(self.cardFrame, value=47, width=180, height=80)
+        self.numberRegisteredCard2 = Card(self.cardFrame, value=89, width=180, height=80)
+        self.numberRegisteredCard3 = Card(self.cardFrame, value=24, width=180, height=80)
 
         self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99)
-        self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        self.numberRegisteredCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        self.numberRegisteredCard2.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        self.numberRegisteredCard3.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
+        # self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
+        # self.numberRegisteredCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
+        # self.numberRegisteredCard2.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
+        # self.numberRegisteredCard3.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
+        self.numCard.place(relx=0.005, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
+        self.numberRegisteredCard.place(relx=0.255, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
+        self.numberRegisteredCard2.place(relx=0.505, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
+        self.numberRegisteredCard3.place(relx=0.755, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
 
         # Chart
         self.chartFrame = CTkFrame(master=self.container, fg_color="transparent", width=700, height=400)
@@ -76,8 +80,8 @@ class DashboardScreen(CTkFrame):
         self.bar.pack(fill="both", expand=True, padx=5, pady=5)
 
     def updateCanvas(self) -> None:
-        self.pie.updateCanvas()
-        self.bar.updateCanvas()
+        self.pie.updateThemeCanvas()
+        self.bar.updateThemeCanvas()
         _currentTheme = self._get_appearance_mode()
         if self.currentTheme != _currentTheme:
             self.pie.destroy()
