@@ -15,6 +15,10 @@ from config.settings import LIST_SCREEN, AssetsImages, Color, ScreenName, images
 
 
 class Navigation(CTkFrame):
+    MENU_IMAGE = imagesTupple(
+        light=AssetsImages.MENU_LIGHT,
+        dark=AssetsImages.MENU_DARK,
+    )
     DASHBOARD_IMAGE = imagesTupple(
         light=AssetsImages.DASHBOARD_LIGHT,
         dark=AssetsImages.DASHBOARD_DARK,
@@ -36,11 +40,14 @@ class Navigation(CTkFrame):
         dark=AssetsImages.EXIT_DARK,
     )
     SIZE_BUTTON = (23, 23)
-    HEIGHT_BUTTON = 55
+    HEIGHT_BUTTON = 40
+    SIDEBAR_WIDTH = 200
+    SIDEBAR_WIDTH_MINI = 50
+    SIDEBAR_LARGE = True
 
-    def __init__(self, master: CTkBaseClass, width: int, height: int) -> None:
+    def __init__(self, master: CTkBaseClass, width: int = 200, height: int = 600) -> None:
         self.master = master
-        self.width = width
+        self.width = width or self.SIDEBAR_WIDTH
         self.height = height
 
         super().__init__(
@@ -55,18 +62,34 @@ class Navigation(CTkFrame):
         self.frame.pack(expand=True, fill="both", padx=8)
 
         self.boxTitle = CTkFrame(self.frame, width=self.width * 0.9, fg_color="transparent")
-        Label(self.boxTitle, text="", image=AssetsImages.LOGO, imageSize=(40, 40)).pack()
-        Label(
+        self.menu = Label(
             self.boxTitle,
-            text="Easy Credit Card",
-            fontSize=18,
-            fontWeight="bold",
-            height=30,
-        ).pack(pady=10)
+            text="",
+            width=40,
+            height=40,
+            image=self.MENU_IMAGE,
+            imageSize=self.SIZE_BUTTON,
+            corner_radius=10,
+        )
+        self.menu.pack(pady=(10, 20), side="left")
+        self.menu.bind("<Button-1>", lambda event: self.sideBarSizeToggle())
+
+        for i in [self.menu]:
+            i.bind("<Enter>", lambda event: self.menu.configure(fg_color=Color.BG_CARD, cursor="hand2"))
+            i.bind("<Leave>", lambda event: self.menu.configure(fg_color="transparent", cursor=""))
+        # Label(self.boxTitle, text="", image=AssetsImages.LOGO, imageSize=(40, 40)).pack()
+        # Label(
+        #     self.boxTitle,
+        #     text="Easy Credit Card",
+        #     fontSize=18,
+        #     fontWeight="bold",
+        #     height=30,
+        # ).pack(pady=10)
 
         self.dashboard = Button(
             self.frame,
             text=f"  {ScreenName.DASHBOARD_TITLE}",
+            fontSize=12,
             width=self.width * 0.9,
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.DASHBOARD),
@@ -80,6 +103,7 @@ class Navigation(CTkFrame):
         self.newCard = Button(
             self.frame,
             text=f"  {ScreenName.NEW_TITLE}",
+            fontSize=12,
             width=self.width * 0.9,
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.NEW),
@@ -93,6 +117,7 @@ class Navigation(CTkFrame):
         self.data = Button(
             self.frame,
             text=f"  {ScreenName.DATA_TITLE}",
+            fontSize=12,
             width=self.width * 0.9,
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.DATA),
@@ -106,6 +131,7 @@ class Navigation(CTkFrame):
         self.setting = Button(
             self.frame,
             text=f"  {ScreenName.SETTING_TITLE}",
+            fontSize=12,
             width=self.width * 0.9,
             height=self.HEIGHT_BUTTON,
             command=lambda: self.navigate(ScreenName.SETTING),
@@ -132,6 +158,7 @@ class Navigation(CTkFrame):
         self.exit = Button(
             self.frame,
             text="  Exit",
+            fontSize=12,
             width=self.width * 0.9,
             height=40,
             command=lambda: self.master.quit(),
@@ -145,6 +172,7 @@ class Navigation(CTkFrame):
 
         self.showWidgets()
         self.updateCoderNavButtonActive()
+        self.sideBarSizeToggle()
 
     def showWidgets(self) -> None:
         """
@@ -161,11 +189,11 @@ class Navigation(CTkFrame):
         Returns:
             None: This function does not return anything.
         """
-        Separator(self.frame, height=20).grid(row=0, column=0)
+        Separator(self.frame, height=0).grid(row=0, column=0)
         self.boxTitle.grid(row=1, column=0, sticky="ew")
 
         row = 2
-        Separator(self.frame, height=50).grid(row=row, column=0)
+        Separator(self.frame, height=110).grid(row=row, column=0)
         self.dashboard.grid(row=row + 1, column=0, sticky="ew")
 
         Separator(self.frame).grid(row=row + 2, column=0)
@@ -177,11 +205,59 @@ class Navigation(CTkFrame):
         Separator(self.frame).grid(row=row + 6, column=0)
         self.setting.grid(row=row + 7, column=0, sticky="ew")
 
-        Separator(self.frame, height=180).grid(row=row + 8, column=0)
+        Separator(self.frame, height=230).grid(row=row + 8, column=0)
         self.selectorTheme.grid(row=row + 9, column=0, sticky="s")
 
         Separator(self.frame, height=16).grid(row=row + 10, column=0)
         self.exit.grid(row=row + 11, column=0, sticky="s")
+    
+    def sideBarSizeToggle(self) -> None:
+        screen_defaults = {
+            self.dashboard: ScreenName.DASHBOARD_TITLE,
+            self.newCard: ScreenName.NEW_TITLE,
+            self.data: ScreenName.DATA_TITLE,
+            self.setting: ScreenName.SETTING_TITLE,
+            self.exit: "Exit",
+        }
+
+        if self.SIDEBAR_LARGE:
+            for screen_object, _ in screen_defaults.items():
+                screen_object.configure(text="", anchor="center")
+        else:
+            for screen_object, title in screen_defaults.items():
+                screen_object.configure(text=f"  {title}", anchor="w")
+        
+        self.contractSideBar()
+
+
+        # self.SIDEBAR_LARGE = not self.SIDEBAR_LARGE
+    
+    def contractSideBar(self) -> None:
+        screen_defaults = {
+            self.boxTitle: "",
+            self.dashboard: ScreenName.DASHBOARD_TITLE,
+            self.newCard: ScreenName.NEW_TITLE,
+            self.data: ScreenName.DATA_TITLE,
+            self.setting: ScreenName.SETTING_TITLE,
+            self.selectorTheme: "",
+            self.exit: "Exit",
+        }
+        if self.SIDEBAR_LARGE:
+            self.configure(width=self.SIDEBAR_WIDTH_MINI)
+            self.frame.configure(width=self.SIDEBAR_WIDTH_MINI)
+            self.menu.configure(width=self.SIDEBAR_WIDTH_MINI * 0.9)
+            for screen_object, _ in screen_defaults.items():
+                screen_object.configure(width=self.SIDEBAR_WIDTH_MINI * 0.9)
+                # self.after(10, self.expandSideBar)
+        else:
+            self.configure(width=self.SIDEBAR_WIDTH)
+            self.frame.configure(width=self.SIDEBAR_WIDTH)
+            self.menu.configure(width=40)
+            for screen_object, _ in screen_defaults.items():
+                screen_object.configure(width=self.SIDEBAR_WIDTH * 0.9)
+                # self.after(10, self.contractSideBar)
+        self.SIDEBAR_LARGE = not self.SIDEBAR_LARGE
+
 
     def navigate(self, screen: str) -> None:
         """
@@ -278,7 +354,7 @@ class Navigation(CTkFrame):
             f"{ScreenName.SETTING}": (AssetsImages.SETTING_DARK, self.setting),
         }
         return screen_map.get(screen, (None, None))
-    
+
     def updateCoderNavButtonActive(self) -> None:
         image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen.get())
         navButtonCurrentScreen.configure(
@@ -288,5 +364,5 @@ class Navigation(CTkFrame):
                     light=image,
                     dark=image,
                 )
-            )
+            ),
         )

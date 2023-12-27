@@ -54,11 +54,8 @@ class Input(CTkFrame):
         self.entry.delete(0, "end")
         self.entry.update()
 
-    def disable(self) -> None:
-        self.entry.configure(state="disabled")
-
-    def senable(self) -> None:
-        self.entry.configure(state="normal")
+    def setState(self, state: str) -> None:
+        self.entry.configure(state=state)
 
     def setPassword(self, value: bool) -> None:
         if value:

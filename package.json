@@ -1,0 +1,20 @@
+{
+  "name": "todoapp",
+  "version": "1.0.0",
+  "description": "Je te présente le projet que tu vas entreprendre : la création d'une application TodoApp avec des fonctionnalités CRUD. Pour mener à bien ce projet, tu utiliseras le langage de programmation Python ainsi que la bibliothèque Tkinter pour créer une interface graphique conviviale.",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macktireh/TodoApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Macktireh/TodoApp/issues"
+  },
+  "homepage": "https://github.com/Macktireh/TodoApp#readme"
+}

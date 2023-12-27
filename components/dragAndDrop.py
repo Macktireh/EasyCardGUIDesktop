@@ -97,12 +97,12 @@ class DragAndDrop(CTkFrame):
     def getPath(self, event: Any) -> None:
         if not event.data or not Validator.validateImagePath(event.data):
             return
-        self.pathEntry.entry.configure(state="normal")
-        self.pathEntry.entry.delete(0, "end")
-        self.pathEntry.entry.insert(0, event.data)
-        self.pathEntry.entry.configure(state="readonly")
+        self.pathEntry.setState("normal")
+        self.pathEntry.clear()
+        self.pathEntry.setValue(event.data)
+        self.pathEntry.setState("readonly")
         self.displayPathFrame()
-        self.buttonDnD.configure(text="", image=Image(event.data, size=(400, 200), external=True))
+        self.buttonDnD.configure(text="", image=Image(event.data, size=(600, 200), external=True))
 
     def selectImage(self) -> None:
         path = filedialog.askopenfilename(
@@ -112,16 +112,16 @@ class DragAndDrop(CTkFrame):
         )
         if not path or not Validator.validateImagePath(path):
             return
-        self.pathEntry.entry.configure(state="normal")
-        self.pathEntry.entry.insert(0, path)
-        self.pathEntry.entry.configure(state="readonly")
+        self.pathEntry.setState("normal")
+        self.pathEntry.setValue(path)
+        self.pathEntry.setState("readonly")
         self.displayPathFrame()
-        self.buttonDnD.configure(text="", image=Image(path, size=(400, 200), external=True))
+        self.buttonDnD.configure(text="", image=Image(path, size=(600, 200), external=True))
 
     def resetPath(self) -> None:
         self.buttonDnD.configure(text=self.BUTTON_DND_TEXT, image=Image(self.DRAG_AND_DROP_IMAGE))
         self.pathFrame.pack_forget()
-        self.pathEntry.entry.configure(state="normal")
-        self.pathEntry.entry.delete(0, "end")
-        self.pathEntry.entry.configure(state="readonly")
+        self.pathEntry.setState("normal")
+        self.pathEntry.clear()
+        self.pathEntry.setState("readonly")
 

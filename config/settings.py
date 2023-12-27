@@ -23,8 +23,6 @@ class AssetsImages:
     EXIT_LIGHT = "exit-black.png"
     DELETE_DARK = "delete.png"
     DELETE_LIGHT = "delete.png"
-    # DELETE_DARK = "delete-white.png"
-    # DELETE_LIGHT = "delete-black.png"
     DRAG_AND_DROP_DARK = "drag-and-drop-white.png"
     DRAG_AND_DROP_LIGHT = "drag-and-drop-black.png"
     EXTRACT_DARK = "extract.png"
@@ -35,6 +33,10 @@ class AssetsImages:
     EDIT_LIGHT = "edit-black.png"
     CROSS_DARK = "cross-white.png"
     CROSS_LIGHT = "cross-black.png"
+    ADD_DARK = "add-white.png"
+    ADD_LIGHT = "add-black.png"
+    MENU_DARK = "menu-white.png"
+    MENU_LIGHT = "menu-black.png"
 
 
 class Color:
@@ -42,7 +44,7 @@ class Color:
     BLACK = "#000000"
     GRAY = "#CCCCCC"
     RED = "#c60101"
-    TEXT = ("#000000", "#ffffff")
+    TEXT = ("#000000", "#FFFFFF")
     TEXT_GRAY = ("#535050", "#9e9a9a")
     BG_CONTENT = ("#e0e0ff", "#2b2b31")
     BG_BUTON_DND = ("#d7d7fe", "#393941")
@@ -57,6 +59,7 @@ class Color:
         ["#4b4b72", "#404068", "#545473", "#64647d", "#777783"],
     )
     BG_SPLASH = "#e0e0ff"
+    BG_ALT_TREEVIEW = ("#ccccff", "#afafd5")
 
 
 class ScreenName:
@@ -75,4 +78,12 @@ LIST_SCREEN = [
     ScreenName.NEW,
     ScreenName.DATA,
     ScreenName.SETTING,
+]
+
+LIST_CARD_TYPES = [
+    "500 FDJ",
+    "1000 FDJ",
+    "2000 FDJ",
+    "5000 FDJ",
+    "10000 FDJ",
 ]

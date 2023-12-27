@@ -14,12 +14,12 @@ class App(CTk, DnDWrapper):
         super().__init__()
         self.TkdndVersion = _require(self)
         self.title("EasyCreditCard")
-        self.resizable(False, False)
+        # self.resizable(True, False)
         self.centerWindow()
 
         self.currentScreen = StringVar(self, value=ScreenName.DASHBOARD)
 
-        self.navigation = Navigation(self, width=200, height=self._current_height)
+        self.navigation = Navigation(self, height=self._current_height)
         self.navigation.pack(side="left", fill="y")
 
         self.screenManager = ScreenManager(

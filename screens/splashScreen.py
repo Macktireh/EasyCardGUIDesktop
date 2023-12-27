@@ -56,7 +56,7 @@ class SplashScreen(Tk):
         self.BtnExit.config(background=Color.BG_SPLASH, fg=Color.BLACK)
 
     def run(self) -> None:
-        self.after(1000, self.startApp)
+        self.after(000, self.startApp)
         self.mainloop()
 
     def startApp(self) -> None:
