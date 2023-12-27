@@ -172,6 +172,7 @@ class Navigation(CTkFrame):
 
         self.showWidgets()
         self.updateCoderNavButtonActive()
+        self.sideBarSizeToggle()
 
     def showWidgets(self) -> None:
         """

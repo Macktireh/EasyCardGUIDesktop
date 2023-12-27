@@ -59,6 +59,7 @@ class Color:
         ["#4b4b72", "#404068", "#545473", "#64647d", "#777783"],
     )
     BG_SPLASH = "#e0e0ff"
+    BG_ALT_TREEVIEW = ("#ccccff", "#afafd5")
 
 
 class ScreenName:

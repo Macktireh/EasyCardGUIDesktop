@@ -21,38 +21,28 @@ class Table(CTkFrame):
     def Table(self, colums: List[str], rows: List[List[str | Number | None]]):
         # Add Some Style
         style = Style()
-        # style.theme_use("default")
-    
-        # style.configure("Treeview",
-        #                 background="#2a2d2e",
-        #                 foreground="white",
-        #                 rowheight=25,
-        #                 fieldbackground="#343638",
-        #                 bordercolor="#343638",
-        #                 borderwidth=0)
-        # style.map('Treeview', background=[('selected', '#22559b')])
-
-        # style.configure("Treeview.Heading",
-        #                 background="#565b5e",
-        #                 foreground="white",
-        #                 relief="flat")
-        # style.map("Treeview.Heading",
-        #             background=[('active', '#3484F0')])
-
-        # Pick A Theme
-        style.theme_use("default")
+        style.theme_use("clam")
 
         # Configure the Treeview Colors
         style.configure(
             "Treeview.Heading",
-            background=Color.BG_ACTIVE_BUTTON_NAVIGATION[0] if self._get_appearance_mode() == "light" else Color.BG_ACTIVE_BUTTON_NAVIGATION[1],  # noqa: E501
-            foreground=Color.WHITE,
-            rowheight=25,
-            fieldbackground=Color.BG_HOVER_BUTTON_NAVIGATION[0] if self._get_appearance_mode() == "light" else Color.BG_HOVER_BUTTON_NAVIGATION[1],  # noqa: E501
+            background=Color.BG_BUTTON_NAVIGATION[0],
+            foreground="black",
+            rowheight=35,
+            fieldbackground="white",
+            font=("Helvetica", 13, "bold"),
+        )
+        style.configure(
+            "Treeview",
+            background=Color.BG_CONTENT[0],
+            foreground="black",
+            rowheight=30,
+            fieldbackground=Color.BG_CONTENT[0],
+            font=("Helvetica", 11),
         )
 
         # Change Selected Color
-        style.map("Treeview", background=[("selected", "#347083")])
+        style.map("Treeview", background=[("selected", Color.BG_ACTIVE_BUTTON_NAVIGATION[1])])
 
         def clear_data():
             self.tv_All_Data.delete(*self.tv_All_Data.get_children())
@@ -81,6 +71,9 @@ class Table(CTkFrame):
 
         global count
         count = 0
+
+        self.tv_All_Data.tag_configure("oddrow", background=Color.BG_ALT_TREEVIEW[0])
+        self.tv_All_Data.tag_configure("evenrow", background=Color.BG_ALT_TREEVIEW[1])
 
         # self.tv_All_Data.tag_configure("oddrow", background=Color.BG_CONTENT_SECONDARY[0] if self._get_appearance_mode() == "light" else Color.BG_CONTENT_SECONDARY[1])  # noqa: E501
         # self.tv_All_Data.tag_configure("evenrow", background=Color.BG_CARD[0] if self._get_appearance_mode() == "light" else Color.BG_CARD[1])  # noqa: E501
