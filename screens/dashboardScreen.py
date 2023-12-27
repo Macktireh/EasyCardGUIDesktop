@@ -27,10 +27,10 @@ class DashboardScreen(CTkFrame):
 
         # Cards
         self.cardFrame = CTkFrame(self.container, fg_color="transparent", width=700)
-        self.numCard = Card(self.cardFrame, width=180, height=80)
-        self.numberRegisteredCard = Card(self.cardFrame, value=47, width=180, height=80)
-        self.numberRegisteredCard2 = Card(self.cardFrame, value=89, width=180, height=80)
-        self.numberRegisteredCard3 = Card(self.cardFrame, value=24, width=180, height=80)
+        self.numCard = Card(self.cardFrame)
+        self.numberRegisteredCard = Card(self.cardFrame, value=47)
+        self.numberRegisteredCard2 = Card(self.cardFrame, value=89)
+        self.numberRegisteredCard3 = Card(self.cardFrame, value=24)
 
         self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99)
         # self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
@@ -43,7 +43,7 @@ class DashboardScreen(CTkFrame):
         self.numberRegisteredCard3.place(relx=0.755, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
 
         # Chart
-        self.chartFrame = CTkFrame(master=self.container, fg_color="transparent", width=700, height=400)
+        self.chartFrame = CTkFrame(master=self.container, fg_color="transparent")
         self.pieFrame = CTkFrame(master=self.chartFrame, fg_color=Color.BG_CARD)
         self.barFrame = CTkFrame(master=self.chartFrame, fg_color=Color.BG_CARD)
 
