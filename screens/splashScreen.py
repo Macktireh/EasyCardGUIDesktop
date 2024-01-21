@@ -8,9 +8,10 @@ class SplashScreen(Tk):
     width: int = 400
     height: int = 200
 
-    def __init__(self, app: Tk) -> None:
+    def __init__(self, app: Tk, duration: int,) -> None:
         super().__init__()
         self.app = app
+        self.duration = duration
         self.overrideredirect(True)
         self.update_idletasks()
 
@@ -56,7 +57,7 @@ class SplashScreen(Tk):
         self.BtnExit.config(background=Color.BG_SPLASH, fg=Color.BLACK)
 
     def run(self) -> None:
-        self.after(000, self.startApp)
+        self.after(self.duration, self.startApp)
         self.mainloop()
 
     def startApp(self) -> None:
