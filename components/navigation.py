@@ -43,7 +43,7 @@ class Navigation(CTkFrame):
     HEIGHT_BUTTON = 40
     SIDEBAR_WIDTH = 200
     SIDEBAR_WIDTH_MINI = 50
-    SIDEBAR_LARGE = True
+    SIDEBAR_LARGE = False
 
     def __init__(self, master: CTkBaseClass, width: int = 200, height: int = 600) -> None:
         self.master = master
