@@ -8,7 +8,7 @@ from screens.dataScreen import DataScreen
 from screens.newCardScreen import NewCardScreen
 from screens.settingScreen import SettingScreen
 from screens.splashScreen import SplashScreen
-from services.creditCardService import CreditCardService  # noqa: F401
+from services.creditCardService import CreditCardService
 from services.matplotlibService import MatplotlibService
 from utils import rcParams
 
