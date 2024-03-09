@@ -5,12 +5,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 IMAGES_DIR = BASE_DIR / "assets" / "images"
 
+BASE_API_URL = "http://localhost:5000/api"
+
 imagesTupple = namedtuple("images", ["light", "dark"])
 
 
 class AssetsImages:
     ICON = "icon.ico"
     LOGO = "logo.png"
+    CARD_CREDIT_DARK = "card-credit.jpg"
+    CARD_CREDIT_LIGHT = "card-credit.jpg"
     DASHBOARD_DARK = "dashboard-white.png"
     DASHBOARD_LIGHT = "dashboard-black.png"
     NEW_DARK = "new-white.png"
@@ -37,6 +41,28 @@ class AssetsImages:
     ADD_LIGHT = "add-black.png"
     MENU_DARK = "menu-white.png"
     MENU_LIGHT = "menu-black.png"
+    API_DARK = "api-white.png"
+    API_LIGHT = "api-black.png"
+    GENERAL_DARK = "general-white.png"
+    GENERAL_LIGHT = "general-black.png"
+    HELP_DARK = "help-white.png"
+    HELP_LIGHT = "help-black.png"
+    THEME_DARK = "theme-white.png"
+    THEME_LIGHT = "theme-black.png"
+    PRIVACY_DARK = "privacy-white.png"
+    PRIVACY_LIGHT = "privacy-black.png"
+    NOTIFICATION_DARK = "notification-white.png"
+    NOTIFICATION_LIGHT = "notification-black.png"
+    KEY_DARK = "key-white.png"
+    KEY_LIGHT = "key-black.png"
+    EYE_DARK = "eye-white.png"
+    EYE_LIGHT = "eye-black.png"
+    EYE_CLOSED_DARK = "eye-closed-white.png"
+    EYE_CLOSED_LIGHT = "eye-closed-black.png"
+    RELOAD_DARK = "reload-white.png"
+    RELOAD_LIGHT = "reload-black.png"
+    INFO_DARK = "info-white.png"
+    INFO_LIGHT = "info-black.png"
 
 
 class Color:
@@ -44,6 +70,7 @@ class Color:
     BLACK = "#000000"
     GRAY = "#CCCCCC"
     RED = "#c60101"
+    ORANGE = "#d97706"
     TEXT = ("#000000", "#FFFFFF")
     TEXT_GRAY = ("#535050", "#9e9a9a")
     BG_CONTENT = ("#e0e0ff", "#2b2b31")
@@ -63,6 +90,8 @@ class Color:
 
 
 class ScreenName:
+    LOGIN = "login"
+    LOGIN_TITLE = "Login"
     DASHBOARD = "dashboard"
     DASHBOARD_TITLE = "Dashboard"
     NEW = "new"
@@ -74,6 +103,7 @@ class ScreenName:
 
 
 LIST_SCREEN = [
+    ScreenName.LOGIN,
     ScreenName.DASHBOARD,
     ScreenName.NEW,
     ScreenName.DATA,

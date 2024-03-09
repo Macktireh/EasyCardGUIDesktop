@@ -1,23 +1,17 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Literal
 
 from models.types import CreditCardDictOut
 
 
+@dataclass
 class CreditCard:
-    def __init__(
-        self,
-        id: str,
-        code: str,
-        cardType: Literal["500", "1000", "2000"],
-        createdAt: datetime,
-        updatedAt: datetime,
-    ) -> None:
-        self.id = id
-        self.code = code
-        self.cardType = cardType
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+    id: str
+    code: str
+    cardType: Literal["500", "1000", "2000", "5000", "10000"]
+    createdAt: datetime
+    updatedAt: datetime
 
     @classmethod
     def fromDict(cls, dict: CreditCardDictOut) -> "CreditCard":

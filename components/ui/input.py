@@ -1,64 +1,79 @@
-from typing import Tuple
+from tkinter import NORMAL, StringVar
+from typing import Any, Callable, Optional, Tuple, Union
 
-from customtkinter import CTkBaseClass, CTkEntry, CTkFrame, CTkLabel
-
-from components.ui.separator import Separator
+from customtkinter import CTkBaseClass, CTkEntry, CTkFont
 
 
-class Input(CTkFrame):
+class Input(CTkEntry):
     def __init__(
         self,
         master: CTkBaseClass,
-        label: str | None = "Input",
-        width: int = 300,
-        height: int = 50,
-        defaultValue: str = "",
-        isPassword: bool = False,
-        state: str = "normal",
-        sep: int = 0,
-        bgColor: str | Tuple[str, str] = "transparent",
-        entryBgColor: str | Tuple[str, str] = "transparent",
+        width: int = 140,
+        height: int = 28,
+        corner_radius: Optional[int] = None,
+        border_width: Optional[int] = None,
+
+        bg_color: Union[str, Tuple[str, str]] = "transparent",
+        fg_color: Optional[Union[str, Tuple[str, str]]] = None,
+        border_color: Optional[Union[str, Tuple[str, str]]] = None,
+        text_color: Optional[Union[str, Tuple[str, str]]] = None,
+        placeholder_text_color: Optional[Union[str, Tuple[str, str]]] = None,
+
+        # textvariable: Union[Variable, None] = None,
+        placeholder_text: Union[str, None] = None,
+        font: Optional[Union[tuple, CTkFont]] = None,
+        state: str = NORMAL,
+        defaultValue: Optional[str] = "",
+        on_change_callback: Optional[Callable[[StringVar], Any]] = None,
+        **kwargs
     ) -> None:
-        self.master = master
-        self.label = label
-        self.width = width
-        self.height = height
-        self.defaultValue = defaultValue
-        self.isPassword = isPassword
-        self.state = state
+        self.on_change_callback = on_change_callback
 
-        super().__init__(self.master, width=self.width, height=self.height, fg_color=bgColor)
+        self.var = StringVar()
+        self.var.trace_add("write", self.onChange)
 
-        if self.label:
-            self.label = CTkLabel(self, text=self.label, width=self.width // 3)
-            self.label.pack(side="left", expand=True)
-            Separator(self, width=sep).pack(side="left", expand=True)
+        super().__init__(
+            master=master,
+            # width=width,
+            height=height,
+            corner_radius=corner_radius,
+            border_width=border_width,
 
-        self.entry = CTkEntry(self, width=(self.width * 3) // 3, fg_color=entryBgColor)
-        self.entry.pack(side="left", expand=True)
-        self.entry.insert(0, self.defaultValue)
-        if self.state != "normal":
-            self.entry.configure(state=self.state)
+            bg_color=bg_color,
+            fg_color=fg_color,
+            border_color=border_color,
+            text_color=text_color,
+            placeholder_text_color=placeholder_text_color,
 
-        self.setPassword(self.isPassword)
+            textvariable=self.var,
+            placeholder_text=placeholder_text,
+            font=font,
+            state=state,
+            **kwargs
+        )
+        self.var.set(defaultValue)
+
 
     def getValue(self) -> str:
-        return self.entry.get()
+        return self.var.get()
 
     def setValue(self, value: str) -> None:
-        self.entry.delete(0, "end")
-        self.entry.insert(0, value)
-        self.entry.update()
+        self.var.set(value)
 
     def clear(self) -> None:
-        self.entry.delete(0, "end")
-        self.entry.update()
+        self.var.set("")
+        self.update()
 
     def setState(self, state: str) -> None:
-        self.entry.configure(state=state)
+        self.configure(state=state)
 
     def setPassword(self, value: bool) -> None:
         if value:
-            self.entry.configure(show="*")
+            self.configure(show="●")
         else:
-            self.entry.configure(show="")
+            self.configure(show="")
+    
+    def onChange(self, *args: Tuple[Any, ...]) -> None:
+        if self.on_change_callback is not None:
+            self.on_change_callback(self.var)
+            return

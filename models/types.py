@@ -2,22 +2,26 @@ from datetime import datetime
 from typing import List, Literal, TypedDict
 
 
+class LoginDict(TypedDict):
+    email: str
+    password: str
+
+
 class CreditCardDictIn(TypedDict):
     code: str
-    cardType: Literal["500", "1000", "2000"]
+    cardType: Literal["500", "1000", "2000", "5000", "10000"]
 
 
 class CreditCardDictOut(TypedDict):
     id: str
     code: str
-    cardType: Literal["500", "1000", "2000"]
+    cardType: Literal["500", "1000", "2000", "5000", "10000"]
     createdAt: datetime
     updatedAt: datetime
 
 
 class ExtractCreditCardDict(TypedDict):
     cardNumbers: List[str]
-    status: Literal["success", "fail"]
     message: str
 
 

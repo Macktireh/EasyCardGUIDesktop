@@ -5,7 +5,7 @@ from CTkToolTip import CTkToolTip
 from customtkinter import CTkBaseClass, CTkFrame
 from tkinterdnd2 import DND_FILES
 
-from components.ui import Button, Image, Input, Separator
+from components.ui import Button, Image, InputLabel, Separator
 from config.settings import AssetsImages, Color, imagesTupple
 from utils.validator import Validator
 
@@ -49,7 +49,7 @@ class DragAndDrop(CTkFrame):
         CTkToolTip(self.buttonDnD, delay=0.3, message=self.BUTTON_DND_TEXT)
 
         self.pathFrame = CTkFrame(master=self, fg_color="transparent")
-        self.pathEntry = Input(master=self.pathFrame, label="", state="readonly", width=450, bgColor=Color.BG_CARD)
+        self.pathEntry = InputLabel(master=self.pathFrame, label="", state="readonly", width=450, bgColor=Color.BG_CARD)
         self.extractButton = Button(
             master=self.pathFrame,
             text="Extract Code",
@@ -59,7 +59,7 @@ class DragAndDrop(CTkFrame):
             textColor=Color.WHITE,
             fg_color=Color.BG_ACTIVE_BUTTON_NAVIGATION,
             hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
-            command=lambda:self.extractCode(self.pathEntry.getValue()),
+            command=lambda: self.extractCode(self.pathEntry.getValue()),
         )
         CTkToolTip(self.extractButton, delay=0.3, message="Extract Code")
 
@@ -124,4 +124,3 @@ class DragAndDrop(CTkFrame):
         self.pathEntry.setState("normal")
         self.pathEntry.clear()
         self.pathEntry.setState("readonly")
-

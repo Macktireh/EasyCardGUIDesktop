@@ -2,7 +2,7 @@ from typing import Tuple
 
 from customtkinter import CTkBaseClass, CTkFrame, CTkOptionMenu, StringVar
 
-from components.ui import Button, Input, Separator
+from components.ui import Button, InputLabel, Separator
 from config.settings import LIST_CARD_TYPES, AssetsImages, Color, imagesTupple
 
 
@@ -32,7 +32,9 @@ class UpdateCardRow(CTkFrame):
         self.master = master
         self._id = _id
 
-        self.inputCode = Input(self, label=f"Code {_id}", defaultValue=code, width=200, entryBgColor=Color.BG_CONTENT)
+        self.inputCode = InputLabel(
+            self, label=f"Code {_id}", defaultValue=code, width=200, entryBgColor=Color.BG_CONTENT
+        )
         self.cardTypeVar = StringVar(self, value=cardType)
         self.cardTypeInput = CTkOptionMenu(
             self,

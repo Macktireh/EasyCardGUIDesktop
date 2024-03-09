@@ -30,7 +30,7 @@ class SplashScreen(Tk):
 
         self.BtnExit = Label(self, text="  X  ", font=("Arial", 13), background=Color.BG_SPLASH, fg="black", bd=1)
         self.BtnExit.place(relx=0.913, rely=0.001)
-        self.BtnExit.bind("<Button-1>", self.exit)
+        self.BtnExit.bind("<Button-1>", lambda e: self.quit())
 
         self.splach_logo = PhotoImage(file=f"{IMAGES_DIR}/logo.png")
         self.splach_logo = self.splach_logo.subsample(7, 7)
@@ -62,4 +62,6 @@ class SplashScreen(Tk):
 
     def startApp(self) -> None:
         self.destroy()
-        self.app().run()
+        app = self.app()
+        app.run()
+        self.quit()

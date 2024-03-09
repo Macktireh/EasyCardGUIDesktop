@@ -6,7 +6,7 @@ from components import AddCardForm, Dialog, DragAndDrop
 from components.ui import Button
 from config.settings import LIST_CARD_TYPES, AssetsImages, Color, imagesTupple
 from models.types import CreditCardDictIn
-from services.creditCardInterface import CreditCardInterface
+from services.creditCardService import CreditCardServiceImpl
 
 
 class NewCardScreen(CTkFrame):
@@ -20,7 +20,7 @@ class NewCardScreen(CTkFrame):
         dark=AssetsImages.SAVE_DARK,
     )
 
-    def __init__(self, master: CTkBaseClass, creditCardService: CreditCardInterface) -> None:
+    def __init__(self, master: CTkBaseClass, creditCardService: CreditCardServiceImpl) -> None:
         self.master = master
         self.creditCardService = creditCardService
 
@@ -35,7 +35,7 @@ class NewCardScreen(CTkFrame):
         self.dnd = DragAndDrop(self, self.extractCode)
         self.dnd.pack(pady=15, ipadx=8, ipady=4)
 
-        self.form = AddCardForm(self)
+        self.form = AddCardForm(self, height=305)
 
         self.frame = CTkFrame(self, fg_color="transparent")
         self.saveButton = Button(
@@ -66,7 +66,7 @@ class NewCardScreen(CTkFrame):
 
     def extractCode(self, path) -> None:
         try:
-            res = self.creditCardService.extractCreditCard(path)
+            res, isAuthorized = self.creditCardService.extractCreditCard(path)
             if res["status"] != "success" or len(res["cardNumbers"]) < 1:
                 return
 
@@ -74,12 +74,12 @@ class NewCardScreen(CTkFrame):
                 self.form.pack(pady=10)
                 self.frame.pack(pady=10)
                 self.cardNumbers = res["cardNumbers"]
-                self.form.render(res["cardNumbers"])
+                self.form.render(self.cardNumbers)
             else:
                 self.cardNumbers = res["cardNumbers"]
-                self.form.updateRender(res["cardNumbers"])
-        except Exception:
-            print(res)
+                self.form.updateRender(self.cardNumbers)
+        except Exception as e:
+            print(e)
             dialog = CTkInputDialog(text="Type in a number:", title="Test")
             print("Number:", dialog.get_input())
 
@@ -94,7 +94,3 @@ class NewCardScreen(CTkFrame):
         data = dialog.get_input()
         if data["code"] and data["type"]:
             self.creditCardService.addCreditCard(CreditCardDictIn(code=data["code"], cardType=data["type"]))
-            # self.cardNumbers.append(data["code"])
-            # self.form.pack(pady=10)
-            # self.frame.pack(pady=10)
-            # self.form.add(CreditCardDictIn(code=data["code"], cardType=data["type"]))
