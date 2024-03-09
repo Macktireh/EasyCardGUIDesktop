@@ -1,38 +1,32 @@
-from typing import List
+from abc import ABC, abstractmethod
+from typing import Tuple
 
-from httpx import Client
+from httpx import Response
 
-from models.creditCard import CreditCard
-from models.types import CreditCardDictIn, CreditCardDictOut, ExtractCreditCardDict
-from services.creditCardInterface import CreditCardInterface
+from models.types import CreditCardDictIn
 
 
-class CreditCardService(CreditCardInterface):
-    baseUrl = "http://localhost:8000"
+class CreditCardServiceImpl(ABC):
+    @abstractmethod
+    def addCreditCard(self, payload: CreditCardDictIn) -> Tuple[Response, bool]:
+        raise NotImplementedError
 
-    def __init__(self, HTTPClient: Client) -> None:
-        self.HTTPClient = HTTPClient
+    @abstractmethod
+    def getAllCreditCards(self) -> Tuple[Response, bool]:
+        raise NotImplementedError
 
-    def addCreditCard(self, payload: CreditCardDictIn) -> CreditCard:
-        response: CreditCardDictOut = self.HTTPClient.post(f"{self.baseUrl}/cards", data=payload).json()
-        return CreditCard.fromDict(response)
+    @abstractmethod
+    def getCreditCard(self, id: str) -> Tuple[Response, bool]:
+        raise NotImplementedError
 
-    def getAllCreditCards(self) -> List[CreditCard]:
-        response: List[CreditCardDictOut] = self.HTTPClient.get(f"{self.baseUrl}/cards").json()
-        return [CreditCard.fromDict(card) for card in response]
+    @abstractmethod
+    def updateCreditCard(self, id: str, payload: CreditCardDictIn) -> Tuple[Response, bool]:
+        raise NotImplementedError
 
-    def getCreditCard(self, id: str) -> CreditCard:
-        response: CreditCardDictOut = self.HTTPClient.get(f"{self.baseUrl}/cards/{id}").json()
-        return CreditCard.fromDict(response)
-
-    def updateCreditCard(self, id: str, payload: CreditCardDictIn) -> CreditCard:
-        response: CreditCardDictOut = self.HTTPClient.put(f"{self.baseUrl}/cards/{id}", data=payload).json()
-        return CreditCard.fromDict(response)
-
+    @abstractmethod
     def deleteCreditCard(self, id: str) -> None:
-        self.HTTPClient.delete(f"{self.baseUrl}/cards/{id}")
+        raise NotImplementedError
 
-    def extractCreditCard(self, path: str) -> ExtractCreditCardDict:
-        with open(path, "rb") as image:
-            response = self.HTTPClient.post(f"{self.baseUrl}/api/v2/extract-card-number", files={"image": image})
-        return response.json()
+    @abstractmethod
+    def extractCreditCard(self, path: str) -> Tuple[Response, bool]:
+        raise NotImplementedError

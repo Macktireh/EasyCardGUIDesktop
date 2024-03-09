@@ -143,7 +143,7 @@ class Navigation(CTkFrame):
         )
         CTkToolTip(self.setting, delay=0.3, message=ScreenName.SETTING_TITLE)
         self.optionTheme = StringVar(value=self._get_appearance_mode())
-        self.selectorTheme = CTkOptionMenu(
+        self.themeSelector = CTkOptionMenu(
             self.frame,
             width=self.width * 0.9,
             values=["Light", "Dark"],
@@ -157,18 +157,19 @@ class Navigation(CTkFrame):
         )
         self.exit = Button(
             self.frame,
-            text="  Exit",
+            text="  Logout",
             fontSize=12,
             width=self.width * 0.9,
             height=40,
-            command=lambda: self.master.quit(),
+            # command=lambda: self.master.quit(),
+            command=lambda: self.master.logout(),
             fg_color=Color.BG_BUTTON_NAVIGATION,
-            hover_color=Color.RED,
+            hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             image=self.EXIT_IMAGE,
             imageSize=self.SIZE_BUTTON,
             anchor="w",
         )
-        CTkToolTip(self.exit, delay=0.3, message="Exit")
+        CTkToolTip(self.exit, delay=0.3, message="Logout")
 
         self.showWidgets()
         self.updateCoderNavButtonActive()
@@ -205,11 +206,12 @@ class Navigation(CTkFrame):
         Separator(self.frame).grid(row=row + 6, column=0)
         self.setting.grid(row=row + 7, column=0, sticky="ew")
 
-        Separator(self.frame, height=230).grid(row=row + 8, column=0)
-        self.selectorTheme.grid(row=row + 9, column=0, sticky="s")
+        # Separator(self.frame, height=230).grid(row=row + 8, column=0)
+        # self.themeSelector.grid(row=row + 9, column=0, sticky="s")
 
-        Separator(self.frame, height=16).grid(row=row + 10, column=0)
-        self.exit.grid(row=row + 11, column=0, sticky="s")
+        # Separator(self.frame, height=43).grid(row=row + 10, column=0)
+        self.exit.place(x=0, y=0, relx=1, rely=0.975, anchor="se")
+        # self.exit.grid(row=row + 11, column=0, sticky="s")
     
     def sideBarSizeToggle(self) -> None:
         screen_defaults = {
@@ -217,7 +219,7 @@ class Navigation(CTkFrame):
             self.newCard: ScreenName.NEW_TITLE,
             self.data: ScreenName.DATA_TITLE,
             self.setting: ScreenName.SETTING_TITLE,
-            self.exit: "Exit",
+            self.exit: "Logout",
         }
 
         if self.SIDEBAR_LARGE:
@@ -239,8 +241,8 @@ class Navigation(CTkFrame):
             self.newCard: ScreenName.NEW_TITLE,
             self.data: ScreenName.DATA_TITLE,
             self.setting: ScreenName.SETTING_TITLE,
-            self.selectorTheme: "",
-            self.exit: "Exit",
+            self.themeSelector: "",
+            self.exit: "Logout",
         }
         if self.SIDEBAR_LARGE:
             self.configure(width=self.SIDEBAR_WIDTH_MINI)
@@ -292,7 +294,7 @@ class Navigation(CTkFrame):
                 text_color=Color.WHITE if appearance_mode == "light" else Color.TEXT,
             )
 
-        self.master.currentScreen.set(screen)
+        self.master.currentScreen = screen
         self.master.screenManager.changeScreen(screen)
 
     def resetDefault(self) -> None:
@@ -322,9 +324,10 @@ class Navigation(CTkFrame):
             theme (str): The name of the theme to be toggled. Can be either 'light' or 'dark'.
         """
         self.optionTheme.set(theme)
+        self.master.screenManager.syncTheme(theme)
         set_appearance_mode(theme)
-        self.master.screenManager.changeScreen(self.master.currentScreen.get())
-        image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen.get())
+        self.master.screenManager.changeScreen(self.master.currentScreen)
+        image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen)
 
         if navButtonCurrentScreen:
             navButtonCurrentScreen.configure(
@@ -356,13 +359,14 @@ class Navigation(CTkFrame):
         return screen_map.get(screen, (None, None))
 
     def updateCoderNavButtonActive(self) -> None:
-        image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen.get())
-        navButtonCurrentScreen.configure(
-            text_color=Color.WHITE,
-            image=Image(
-                imagesTupple(
-                    light=image,
-                    dark=image,
-                )
-            ),
-        )
+        image, navButtonCurrentScreen = self.getObjectNavButtonCurrentScreen(self.master.currentScreen)
+        if navButtonCurrentScreen:
+            navButtonCurrentScreen.configure(
+                text_color=Color.WHITE,
+                image=Image(
+                    imagesTupple(
+                        light=image,
+                        dark=image,
+                    )
+                ),
+            )

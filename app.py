@@ -1,9 +1,10 @@
-from customtkinter import CTk, StringVar
+from customtkinter import CTk
 from tkinterdnd2.TkinterDnD import DnDWrapper, _require
 
 from components import Navigation
 from config.settings import ScreenName
 from screens import ScreenManager
+from services.authServiceImpl import AuthServiceImpl
 
 
 class App(CTk, DnDWrapper):
@@ -13,28 +14,33 @@ class App(CTk, DnDWrapper):
     def __init__(self) -> None:
         super().__init__()
         self.TkdndVersion = _require(self)
-        self.title("EasyCreditCard")
-        self.resizable(True, False)
-        self.minsize(self.width - 200, self.height)
-        self.maxsize(self.width + 200, self.height)
+        self.title("EasyCard")
+        # self.resizable(True, False)
+        self.minsize(800, 600)
+        # self.maxsize(self.width + 200, self.height)
         self.centerWindow()
 
-        self.currentScreen = StringVar(self, value=ScreenName.DASHBOARD)
+        self.authService = AuthServiceImpl()
 
+        self.currentScreen = ScreenName.DASHBOARD if self.isAuthenticate() else ScreenName.LOGIN
         self.navigation = Navigation(self, height=self._current_height)
-        self.navigation.pack(side="left", fill="y")
 
         self.screenManager = ScreenManager(
             self,
+            authService=self.authService,
             width=self._current_width - self.navigation.width,
             height=self._current_height,
         )
+
+        self.navigation.pack(side="left", fill="y")
         self.screenManager.pack(side="right", fill="both", expand=True)
+        # self.loginScreen = LoginScreen(self, self.authService, )
+        self.isAuthenticate()
 
     def run(self) -> None:
         """Run the application."""
         self.mainloop()
-        self.quit()
+
 
     def centerWindow(self) -> None:
         """Center the application window on the screen."""
@@ -50,7 +56,7 @@ class App(CTk, DnDWrapper):
         Args:
             title (str): The title to be set.
         """
-        self.title(f"EasyCreditCard - {title}")
+        self.title(f"EasyCard - {title}")
 
     def navigate(self, screen: str) -> None:
         """
@@ -61,3 +67,24 @@ class App(CTk, DnDWrapper):
         """
         # print(screen, "from app.py")
         self.navigation.navigate(screen)
+
+    def isAuthenticate(self):
+        response = self.authService.verifyAPIKey()
+        print("isAuthenticate", response.is_success)
+        return response.is_success
+        if not response.is_error:
+            self.loginScreen.place(relx=0, rely=0, relwidth=1, relheight=1)
+            self.currentScreen = ScreenName.LOGIN
+            return
+        apiKeey = self.authService.getAPIKey()
+        if not apiKeey:
+            self.loginScreen.place(relx=0, rely=0, relwidth=1, relheight=1)
+            self.currentScreen = ScreenName.LOGIN
+            return
+        self.screenManager.onLoginSuccess(apiKeey)
+        self.navigate(ScreenName.DASHBOARD)
+
+    def logout(self):
+        self.authService.logout()
+        self.screenManager.apiKey.set("")
+        self.navigate(ScreenName.LOGIN)

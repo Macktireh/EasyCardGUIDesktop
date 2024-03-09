@@ -32,7 +32,7 @@ class DashboardScreen(CTkFrame):
         self.numberRegisteredCard2 = Card(self.cardFrame, value=89)
         self.numberRegisteredCard3 = Card(self.cardFrame, value=24)
 
-        self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99)
+        self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99, relheight=0.315)
         # self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
         # self.numberRegisteredCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
         # self.numberRegisteredCard2.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)

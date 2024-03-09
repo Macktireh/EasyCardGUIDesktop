@@ -3,7 +3,7 @@ from numbers import Number
 from CTkToolTip import CTkToolTip
 from customtkinter import CTkBaseClass, CTkFrame
 
-from components.ui import Label, Separator
+from components.ui import Label
 from config.settings import Color
 
 
@@ -25,18 +25,20 @@ class Card(CTkFrame):
 
         super().__init__(
             self.master,
-            width=self.width,
-            height=self.height,
+            # width=self.width,
+            # height=self.height,
             fg_color=Color.BG_CARD,
             corner_radius=10,
         )
 
-        Separator(self, width=15, height=15).pack()
+        # Separator(self, width=15, height=15).pack()
         _value = Label(self, text=self.value, fontSize=40, fontWeight="bold")
-        _value.pack()
+        _value.place(relx=0.5, rely=0.3, anchor="center")
+        # _value.pack(side="top", pady=(0, 15), expand=True)
         _text = Label(self, text=self.text, fontSize=14, fontWeight="bold")
-        _text.pack()
-        Separator(self, width=15, height=15).pack()
+        _text.place(relx=0.5, rely=0.7, anchor="center")
+        # _text.pack( side="top", pady=(0, 0), expand=True)
+        # Separator(self, width=15, height=15).pack()
 
         CTkToolTip(self, delay=0.3, message=self.value)
         CTkToolTip(_value, delay=0.3, message=self.value)
