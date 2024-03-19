@@ -1,1 +1,1 @@
-# Easy Credit Card UI
+# Easy Card GUI Desktop
