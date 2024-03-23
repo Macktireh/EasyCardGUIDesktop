@@ -1,9 +1,13 @@
+from datetime import datetime
+from typing import cast
+
 from customtkinter import CTkBaseClass, CTkFrame
 
-from components import BarChart, Card, PieChart
+from components import AnimatedGif, BarChart, Card, PieChart
 from components.ui import Label
-from config.settings import Color
+from config.settings import AssetsImages, Color
 from services.chartService import ChartService
+from utils import getCardsCreatedWeekAgo
 
 
 class DashboardScreen(CTkFrame):
@@ -20,17 +24,37 @@ class DashboardScreen(CTkFrame):
             corner_radius=0,
         )
 
+        self.loader = AnimatedGif(self, gif_file=AssetsImages.LOADING_GIF, bg=Color.BG_CONTENT[1])
+
+        self.data = cast(list, self.master.data).copy()
+
+        if not self.data:
+            self.loader.pack(expand=True, padx=10, pady=10)
+            self.loader.start_thread()
+            return
+
         Label(self, text="General Statistics", fontSize=26, fontWeight="bold").pack(pady=10)
 
         self.container = CTkFrame(self, fg_color="transparent")
         self.container.pack(fill="both", expand=True)
 
+        _numCard = len(self.master.data)
+        _numCardValid = len([card for card in self.master.data if card["isValid"]])
+        _numCardInvalid = len([card for card in self.master.data if not card["isValid"]])
+        _numNewCard = len(
+            [
+                card
+                for card in self.master.data
+                if card["createdAt"].split("T")[0] == datetime.now().strftime("%Y-%m-%d")
+            ]
+        )
+
         # Cards
         self.cardFrame = CTkFrame(self.container, fg_color="transparent", width=700)
-        self.numCard = Card(self.cardFrame)
-        self.numberRegisteredCard = Card(self.cardFrame, value=47)
-        self.numberRegisteredCard2 = Card(self.cardFrame, value=89)
-        self.numberRegisteredCard3 = Card(self.cardFrame, value=24)
+        self.numCard = Card(self.cardFrame, text="Total cards", value=_numCard)
+        self.numberRegisteredCard = Card(self.cardFrame, text="Valid cards", value=_numCardValid)
+        self.numberRegisteredCard2 = Card(self.cardFrame, text="Invalid cards", value=_numCardInvalid)
+        self.numberRegisteredCard3 = Card(self.cardFrame, text="New cards", value=_numNewCard)
 
         self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99, relheight=0.315)
         # self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
@@ -54,14 +78,23 @@ class DashboardScreen(CTkFrame):
         self.renderChart()
 
     def renderChart(self) -> None:
-        x_values = ["A", "B", "C", "D", "E"]
-        y_values_bar = [100, 200, 600, 400, 500]
-        y_values_donut = [10, 40, 30, 20, 50]
+        # x_values = ["A", "B", "C", "D", "E"]
+        # y_values_bar = [100, 200, 600, 400, 500]
+        # y_values_donut = [10, 40, 30, 20, 50]
+        pieData = [
+            {"label": "500 fdj", "value": len([card for card in self.master.data if card["cardType"] == "500"])},
+            {"label": "1000 fdj", "value": len([card for card in self.master.data if card["cardType"] == "1000"])},
+            {"label": "2000 fdj", "value": len([card for card in self.master.data if card["cardType"] == "2000"])},
+            {"label": "5000 fdj", "value": len([card for card in self.master.data if card["cardType"] == "5000"])},
+            {"label": "10000 fdj", "value": len([card for card in self.master.data if card["cardType"] == "10000"])},
+        ]
+        dates, values = getCardsCreatedWeekAgo(self.master.data)
         self.pie = PieChart(
             master=self.pieFrame,
             chartService=self.chartService,
-            y=y_values_donut,
-            labels=x_values,
+            y=list(map(lambda x: x["value"], pieData)),
+            labels=list(map(lambda x: x["label"], pieData)),
+            title="Percentage of cards by type",
             labelColor=Color.WHITE if self.currentTheme == "dark" else Color.BLACK,
             percentColor=Color.BLACK if self.currentTheme == "dark" else Color.WHITE,
             listColors=Color.LIST_BG_PIE[0] if self.currentTheme == "dark" else Color.LIST_BG_PIE[0],
@@ -69,8 +102,8 @@ class DashboardScreen(CTkFrame):
         self.bar = BarChart(
             master=self.barFrame,
             chartService=self.chartService,
-            x=x_values,
-            y=y_values_bar,
+            x=dates,
+            y=values,
             labelColor=(Color.WHITE, Color.WHITE) if self.currentTheme == "dark" else (Color.BLACK, Color.BLACK),
             barColor=Color.BG_ACTIVE_BUTTON_NAVIGATION[1]
             if self.currentTheme == "dark"

@@ -15,16 +15,14 @@ class App(CTk, DnDWrapper):
         super().__init__()
         self.TkdndVersion = _require(self)
         self.title("EasyCard")
-        # self.resizable(True, False)
         self.minsize(800, 600)
-        # self.maxsize(self.width + 200, self.height)
         self.centerWindow()
 
         self.authService = AuthServiceImpl()
 
         self.currentScreen = ScreenName.DASHBOARD if self.isAuthenticate() else ScreenName.LOGIN
-        self.navigation = Navigation(self, height=self._current_height)
 
+        self.navigation = Navigation(self, height=self._current_height)
         self.screenManager = ScreenManager(
             self,
             authService=self.authService,
@@ -34,13 +32,6 @@ class App(CTk, DnDWrapper):
 
         self.navigation.pack(side="left", fill="y")
         self.screenManager.pack(side="right", fill="both", expand=True)
-        # self.loginScreen = LoginScreen(self, self.authService, )
-        self.isAuthenticate()
-
-    def run(self) -> None:
-        """Run the application."""
-        self.mainloop()
-
 
     def centerWindow(self) -> None:
         """Center the application window on the screen."""
@@ -65,26 +56,26 @@ class App(CTk, DnDWrapper):
         Args:
             screen (str): The name of the screen to navigate to.
         """
-        # print(screen, "from app.py")
         self.navigation.navigate(screen)
 
-    def isAuthenticate(self):
+    def isAuthenticate(self) -> bool:
+        """
+        Check if the user is authenticated and return a boolean value.
+        """
         response = self.authService.verifyAPIKey()
         print("isAuthenticate", response.is_success)
         return response.is_success
-        if not response.is_error:
-            self.loginScreen.place(relx=0, rely=0, relwidth=1, relheight=1)
-            self.currentScreen = ScreenName.LOGIN
-            return
-        apiKeey = self.authService.getAPIKey()
-        if not apiKeey:
-            self.loginScreen.place(relx=0, rely=0, relwidth=1, relheight=1)
-            self.currentScreen = ScreenName.LOGIN
-            return
-        self.screenManager.onLoginSuccess(apiKeey)
-        self.navigate(ScreenName.DASHBOARD)
 
-    def logout(self):
+    def logout(self) -> None:
+        """
+        Log out the user and navigate to the login screen.
+        """
         self.authService.logout()
         self.screenManager.apiKey.set("")
         self.navigate(ScreenName.LOGIN)
+
+    def reRenderScreenManager(self) -> None:
+        """
+        Re-render the screen manager.
+        """
+        self.screenManager.reInitializeScreens()

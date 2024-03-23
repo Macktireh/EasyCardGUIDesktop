@@ -161,7 +161,6 @@ class Navigation(CTkFrame):
             fontSize=12,
             width=self.width * 0.9,
             height=40,
-            # command=lambda: self.master.quit(),
             command=lambda: self.master.logout(),
             fg_color=Color.BG_BUTTON_NAVIGATION,
             hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,

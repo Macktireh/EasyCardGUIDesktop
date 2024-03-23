@@ -63,5 +63,5 @@ class SplashScreen(Tk):
     def startApp(self) -> None:
         self.destroy()
         app = self.app()
-        app.run()
+        app.mainloop()
         self.quit()

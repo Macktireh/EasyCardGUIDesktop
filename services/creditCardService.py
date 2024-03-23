@@ -6,7 +6,7 @@ from httpx import Response
 from models.types import CreditCardDictIn
 
 
-class CreditCardServiceImpl(ABC):
+class CreditCardService(ABC):
     @abstractmethod
     def addCreditCard(self, payload: CreditCardDictIn) -> Tuple[Response, bool]:
         raise NotImplementedError
