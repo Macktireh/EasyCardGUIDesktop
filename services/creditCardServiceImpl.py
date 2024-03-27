@@ -1,21 +1,22 @@
 from http import HTTPStatus
-from typing import Tuple
+from typing import Callable, Tuple
 
 from httpx import Client, ConnectError, Response, TimeoutException
 
 from config.settings import BASE_API_URL
 from models.types import CreditCardDictIn
 from services.authServiceImpl import AuthServiceImpl
-from services.creditCardService import CreditCardServiceImpl
+from services.creditCardService import CreditCardService
 
 
-class CreditCardServiceImpl(CreditCardServiceImpl):
-    def __init__(self) -> None:
+class CreditCardServiceImpl(CreditCardService):
+    def __init__(self, callback: Callable[[bool], None] | None = None) -> None:
         self.HTTPClient = Client(base_url=BASE_API_URL)
         self.authService = AuthServiceImpl()
+        self.callback = callback
 
     def _make_request(
-        self, method: str, endpoint: str, params: dict = None, json_data=None, files=None
+        self, method: str, endpoint: str, params: dict = None, json_data=None, files=None, withCallback: bool = False
     ) -> Tuple[Response, bool]:
         self.apiKey = self.authService.getAPIKey()
         if not self.apiKey:
@@ -40,23 +41,30 @@ class CreditCardServiceImpl(CreditCardServiceImpl):
         except (ConnectError, TimeoutException):
             return None, False
 
-        return response, response.status_code == HTTPStatus.UNAUTHORIZED
+        isAuthorized = response.status_code != HTTPStatus.UNAUTHORIZED
 
-    def addCreditCard(self, payload: CreditCardDictIn) -> Tuple[Response, bool]:
-        return self._make_request("post", "/cards", json_data=payload)
+        if withCallback and self.callback:
+            self.callback(isAuthorized)
 
-    def getAllCreditCards(self) -> Tuple[Response, bool]:
-        return self._make_request("get", "/cards")
+        return response, isAuthorized
 
-    def getCreditCard(self, id: str) -> Tuple[Response, bool]:
-        return self._make_request("get", f"/cards/{id}")
+    def addCreditCard(self, payload: CreditCardDictIn, withCallback: bool = False) -> Tuple[Response, bool]:
+        return self._make_request("post", "/cards", json_data=payload, withCallback=withCallback)
 
-    def updateCreditCard(self, id: str, payload: CreditCardDictIn) -> Tuple[Response, bool]:
-        return self._make_request("patch", f"/cards/{id}", json_data=payload)
+    def getAllCreditCards(self, withCallback: bool = False) -> Tuple[Response, bool]:
+        return self._make_request("get", "/cards", withCallback=withCallback)
 
-    def deleteCreditCard(self, id: str) -> Tuple[Response, bool]:
-        return self._make_request("delete", f"/cards/{id}")
+    def getCreditCard(self, id: str, withCallback: bool = False) -> Tuple[Response, bool]:
+        return self._make_request("get", f"/cards/{id}", withCallback=withCallback)
 
-    def extractCreditCard(self, path: str) -> Tuple[Response, bool]:
+    def updateCreditCard(self, id: str, payload: CreditCardDictIn, withCallback: bool = False) -> Tuple[Response, bool]:
+        return self._make_request("patch", f"/cards/{id}", json_data=payload, withCallback=withCallback)
+
+    def deleteCreditCard(self, id: str, withCallback: bool = False) -> Tuple[Response, bool]:
+        return self._make_request("delete", f"/cards/{id}", withCallback=withCallback)
+
+    def extractCreditCard(self, path: str, withCallback: bool = False) -> Tuple[Response, bool]:
         with open(path, "rb") as image:
-            return self._make_request("post", "/cards/extract", files={"image": image}, params={"timeout": 10})
+            return self._make_request(
+                "post", "/cards/extract", files={"image": image}, params={"timeout": 10}, withCallback=withCallback
+            )

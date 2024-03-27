@@ -63,6 +63,7 @@ class AssetsImages:
     RELOAD_LIGHT = "reload-black.png"
     INFO_DARK = "info-white.png"
     INFO_LIGHT = "info-black.png"
+    LOADING_GIF = BASE_DIR / "assets" / "images" / "spin3.gif"
 
 
 class Color:

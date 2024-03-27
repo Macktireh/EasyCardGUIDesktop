@@ -13,9 +13,10 @@ class CreditCardDictIn(TypedDict):
 
 
 class CreditCardDictOut(TypedDict):
-    id: str
+    publicId: str
     code: str
     cardType: Literal["500", "1000", "2000", "5000", "10000"]
+    isValid: bool
     createdAt: datetime
     updatedAt: datetime
 

@@ -84,6 +84,7 @@ class LoginScreen(CTkFrame):
         print(response.json())
         if response.is_success:
             self.errorLabel.grid_forget()
+            # self.master.reRenderScreenManager()
             self.master.currentScreen = ScreenName.DASHBOARD
             self.callback(response.json()["apiKey"])
             self.place_forget()

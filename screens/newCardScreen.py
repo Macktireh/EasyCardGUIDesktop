@@ -6,7 +6,7 @@ from components import AddCardForm, Dialog, DragAndDrop
 from components.ui import Button
 from config.settings import LIST_CARD_TYPES, AssetsImages, Color, imagesTupple
 from models.types import CreditCardDictIn
-from services.creditCardService import CreditCardServiceImpl
+from services.creditCardService import CreditCardService
 
 
 class NewCardScreen(CTkFrame):
@@ -20,7 +20,7 @@ class NewCardScreen(CTkFrame):
         dark=AssetsImages.SAVE_DARK,
     )
 
-    def __init__(self, master: CTkBaseClass, creditCardService: CreditCardServiceImpl) -> None:
+    def __init__(self, master: CTkBaseClass, creditCardService: CreditCardService) -> None:
         self.master = master
         self.creditCardService = creditCardService
 

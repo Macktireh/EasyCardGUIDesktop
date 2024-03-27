@@ -113,7 +113,7 @@ class SettingScreen(CTkFrame):
             width=470,
             text_color=Color.TEXT,
             fg_color=Color.BG_CARD,
-            defaultValue=self.master.apiKey.get(),
+            # defaultValue=self.master.apiKey.get(),
             show="●",
             on_change_callback=self.onChange,
         )
@@ -237,7 +237,4 @@ class SettingScreen(CTkFrame):
             self.apiKeyEntry.setPassword(False)
 
     def reload(self) -> None:
-        from app import App
-
-        self.master.master.destroy()
-        App().run()
+        self.master.reload()
