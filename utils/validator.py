@@ -16,7 +16,7 @@ class Validator:
         if imagePath.split(".")[-1].lower() not in Validator.IMAGE_FORMATS:
             return False
         return True
-    
+
     @staticmethod
     def validateCode(code: str) -> bool:
         """

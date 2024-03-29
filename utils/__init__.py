@@ -89,7 +89,8 @@ def dataToTable(data: CreditCardDictOut) -> Tuple[List[str], List[List[str | int
     Returns:
         tuple: A tuple containing the columns and rows of the data.
     """
-    columns = list(data[0].keys())
+    cols = CreditCardDictOut.columnNames()
+    columns = [cols[key] for key in list(data[0].keys())]
     rows = [TimestampToDatetime(list(row.values())) for row in data]
     return columns, rows
 
@@ -111,7 +112,7 @@ def getCardsCreatedWeekAgo(cards):
             creation_day = creation_date.strftime("%Y-%m-%d")
             # Incrémenter le compteur de cartes pour ce jour
             cards_per_day[creation_day] += 1
-    
+
     # Trier le dictionnaire par date
     sorted_cards_per_day = dict(sorted(cards_per_day.items(), key=lambda x: x[0]))
 
