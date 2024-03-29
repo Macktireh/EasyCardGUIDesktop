@@ -18,7 +18,7 @@ class DataScreen(CTkFrame):
             self.master,
             width=self.master._current_width,
             height=self.master._current_height,
-            fg_color="transparent",
+            fg_color=Color.TRANSPARENT,
             corner_radius=0,
         )
 
@@ -37,9 +37,8 @@ class DataScreen(CTkFrame):
             self.loader.pack(expand=True, padx=10, pady=10)
             self.loader.start_thread()
             return
-        
+
         colums, rows = dataToTable(self.data)
 
         self.table = Table(self, colums=colums, rows=rows)
         self.table.pack(expand=True, fill="both", padx=10, pady=10)
-        

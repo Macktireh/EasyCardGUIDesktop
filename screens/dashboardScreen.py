@@ -20,7 +20,7 @@ class DashboardScreen(CTkFrame):
             self.master,
             width=self.master._current_width,
             height=self.master._current_height,
-            fg_color="transparent",
+            fg_color=Color.TRANSPARENT,
             corner_radius=0,
         )
 
@@ -35,7 +35,7 @@ class DashboardScreen(CTkFrame):
 
         Label(self, text="General Statistics", fontSize=26, fontWeight="bold").pack(pady=10)
 
-        self.container = CTkFrame(self, fg_color="transparent")
+        self.container = CTkFrame(self, fg_color=Color.TRANSPARENT)
         self.container.pack(fill="both", expand=True)
 
         _numCard = len(self.master.data)
@@ -50,7 +50,7 @@ class DashboardScreen(CTkFrame):
         )
 
         # Cards
-        self.cardFrame = CTkFrame(self.container, fg_color="transparent", width=700)
+        self.cardFrame = CTkFrame(self.container, fg_color=Color.TRANSPARENT, width=700)
         self.numCard = Card(self.cardFrame, text="Total cards", value=_numCard)
         self.numberRegisteredCard = Card(self.cardFrame, text="Valid cards", value=_numCardValid)
         self.numberRegisteredCard2 = Card(self.cardFrame, text="Invalid cards", value=_numCardInvalid)
@@ -67,7 +67,7 @@ class DashboardScreen(CTkFrame):
         self.numberRegisteredCard3.place(relx=0.755, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
 
         # Chart
-        self.chartFrame = CTkFrame(master=self.container, fg_color="transparent")
+        self.chartFrame = CTkFrame(master=self.container, fg_color=Color.TRANSPARENT)
         self.pieFrame = CTkFrame(master=self.chartFrame, fg_color=Color.BG_CARD)
         self.barFrame = CTkFrame(master=self.chartFrame, fg_color=Color.BG_CARD)
 

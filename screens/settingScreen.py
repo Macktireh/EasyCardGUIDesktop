@@ -62,7 +62,7 @@ class SettingScreen(CTkFrame):
             self.master,
             width=self.master._current_width,
             height=self.master._current_height,
-            fg_color="transparent",
+            fg_color=Color.TRANSPARENT,
             corner_radius=0,
         )
 

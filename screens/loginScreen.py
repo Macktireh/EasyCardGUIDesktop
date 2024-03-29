@@ -31,14 +31,14 @@ class LoginScreen(CTkFrame):
 
         Label(self, text="Welcome to Easy Card", fontSize=26, fontWeight="bold").pack(pady=(50, 30))
 
-        container = CTkFrame(self, fg_color="transparent")
+        container = CTkFrame(self, fg_color=Color.TRANSPARENT)
         container.pack()
         Label(container, text="Login to your account to continue", fontSize=20).pack(pady=(10, 30))
 
-        leftFrame = CTkFrame(container, fg_color="transparent", width=500)
+        leftFrame = CTkFrame(container, fg_color=Color.TRANSPARENT, width=500)
         leftFrame.pack(side="left", fill="both", expand=True, padx=10)
 
-        rightFrame = CTkFrame(container, fg_color="transparent", width=500)
+        rightFrame = CTkFrame(container, fg_color=Color.TRANSPARENT, width=500)
         rightFrame.pack(side="right", fill="both", expand=True, padx=20)
 
         Label(leftFrame, text="", image=self.CARD_CREDIT_IMAGE, imageSize=(450, 300)).pack(pady=20)

@@ -8,7 +8,11 @@ class SplashScreen(Tk):
     width: int = 400
     height: int = 200
 
-    def __init__(self, app: Tk, duration: int,) -> None:
+    def __init__(
+        self,
+        app: Tk,
+        duration: int,
+    ) -> None:
         super().__init__()
         self.app = app
         self.duration = duration
