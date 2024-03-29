@@ -13,7 +13,8 @@ class ChartService(ABC):
         y: Tuple[Number, ...] | Number,
         barColor: str = "skyblue",
         labelColor: Tuple[str, str] = ("black", "black"),
-    ) -> Figure: ...
+    ) -> Figure:
+        ...
 
     @abstractmethod
     def pie(
@@ -24,4 +25,5 @@ class ChartService(ABC):
         percentColor: str = "black",
         listColors: Tuple[str, ...] | str | None = None,
         wedgeprops: Dict = None,
-    ) -> Figure: ...
+    ) -> Figure:
+        ...

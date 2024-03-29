@@ -83,7 +83,7 @@ class MatplotlibService(ChartService):
             labels: (Tuple[Any, ...] | Any): The labels for each data value.
             labelColor: (str, optional): The color of the labels. Defaults to "black".
             percentColor: (str, optional): The color of the percentage values. Defaults to "black".
-            listColors: (Tuple[str, ...] | str | None, optional): The colors for each wedge. 
+            listColors: (Tuple[str, ...] | str | None, optional): The colors for each wedge.
                         If None, a default color palette will be used. Defaults to None.
             wedgeprops: (Dict, optional): Additional properties for the wedges. Defaults to None.
 
