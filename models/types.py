@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Literal, TypedDict
+from typing import Dict, List, Literal, TypedDict
 
 
 class LoginDict(TypedDict):
@@ -19,6 +19,17 @@ class CreditCardDictOut(TypedDict):
     isValid: bool
     createdAt: datetime
     updatedAt: datetime
+
+    @staticmethod
+    def columnNames() -> Dict[str, str]:
+        return {
+            "publicId": "id",
+            "code": "code",
+            "cardType": "Card type",
+            "isValid": "Is valid",
+            "createdAt": "Created at",
+            "updatedAt": "Updated at",
+        }
 
 
 class ExtractCreditCardDict(TypedDict):
