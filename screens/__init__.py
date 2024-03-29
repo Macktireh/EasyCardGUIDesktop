@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from customtkinter import CTkBaseClass, CTkFrame
 
 from components import Modal, Toast
+from components.loader import Loader
 from config.settings import Color, ScreenName
 from models.types import CreditCardDictOut
 from screens.dashboardScreen import DashboardScreen
@@ -41,17 +42,8 @@ class ScreenManager(CTkFrame):
             self,
             text="The API key is either not valid or could not be found. Please check your API key or reconnect again.",
         )
-        
 
-        # self.modal = CTkFrame(self, width=300, height=300, fg_color=Color.GRAY)
-        # self.modal.place(relx=0.5, rely=0.5, anchor="center")
-
-        response, isAuthorized = self.creditCardService.getAllCreditCards()
-
-        # if not isAuthorized:
-        self.toast.show()
-        self.after(5000, lambda: self.toast.hide())
-        self.after(10000, lambda: self.toast.show(before=self.getCurrentScreenObj()))
+        response, _ = self.creditCardService.getAllCreditCards(self.checkAuthentication)
 
         self.data = response.json() if response.is_success else []
 
@@ -60,10 +52,14 @@ class ScreenManager(CTkFrame):
         self.rentder(self.master.currentScreen)
         self.updateApiKey()
 
+        self.loader = Loader(self)
+        # self.loader.show()
+
         self.modal = Modal(
             self, text="Oops, we have an authentication problem.\n Please reload the application and try again."
         )
-        self.modal.showModal()
+        self.modal.show()
+        self.after(100, self.modal.hide)
 
     def getCurrentScreenObj(self):
         match self.master.currentScreen:
@@ -96,13 +92,7 @@ class ScreenManager(CTkFrame):
         self.initializeScreens()
 
     def getData(self) -> List[CreditCardDictOut] | None:
-        response, isAuthorized = self.creditCardService.getAllCreditCards()
-
-        if not isAuthorized:
-            self.toast.show()
-        else:
-            self.toast.hide()
-
+        response, _ = self.creditCardService.getAllCreditCards(self.checkAuthentication)
         return response.json() if response.is_success else []
 
     def rentder(self, screen: str) -> None:
@@ -171,25 +161,29 @@ class ScreenManager(CTkFrame):
         if self.master.currentScreen != ScreenName.LOGIN:
             self.apiKey.set(self.authService.getAPIKey() or "")
             self.settingScreen.apiKeyEntry.setValue(self.apiKey.get())
-    
+
     def checkAuthentication(self) -> bool:
         """
         Check if the user is authenticated and return a boolean value.
         """
+
         def _checkAuthentication(self):
             response = self.authService.verifyAPIKey()
             print("isAuthenticate", response.is_success)
-            if response.is_success:
-                self.modal.showModal()
-        
+            if not response.is_success:
+                self.modal.show()
+                self.toast.show(before=self.getCurrentScreenObj())
+            else:
+                self.toast.hide()
+                self.modal.hide()
+
         Thread(target=_checkAuthentication, args=(self,)).start()
-    
+
     def reload(self) -> None:
         from app import App
 
         self.master.destroy()
         App().mainloop()
-
 
 
 __all__ = [
