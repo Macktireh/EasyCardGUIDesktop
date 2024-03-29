@@ -1,4 +1,3 @@
-
 from customtkinter import CTkBaseClass, CTkFrame
 
 from components.ui import Button, Label
@@ -14,7 +13,7 @@ class Modal(CTkFrame):
     ) -> None:
         self.master = master
 
-        super().__init__(self.master, fg_color=fg_color)
+        super().__init__(self.master, width=380, height=160, fg_color=fg_color)
 
         self.label = Label(
             self,
@@ -34,9 +33,9 @@ class Modal(CTkFrame):
             height=30,
             fg_color=Color.BG_BUTTON_NAVIGATION,
             hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
-            command=lambda: self.hideModal(),
+            command=lambda: self.hide(),
         )
-        self.cancelButton.place(relx=0.53, rely=0.8)
+        self.cancelButton.place(relx=0.53, rely=0.75)
 
         self.reloadButton = Button(
             self,
@@ -48,13 +47,14 @@ class Modal(CTkFrame):
             hover_color=Color.BG_HOVER_BUTTON_NAVIGATION,
             command=lambda: self.reload(),
         )
-        self.reloadButton.place(relx=0.75, rely=0.8)
+        self.reloadButton.place(relx=0.75, rely=0.75)
 
-    def showModal(self) -> None:
-        self.place(relx=0.5, rely=0.5, relwidth=0.4, relheight=0.3, anchor="center")
+    def show(self) -> None:
+        self.place(relx=0.5, rely=0.5, anchor="center")
+        # self.place(relx=0.5, rely=0.5, relwidth=0.4, relheight=0.25, anchor="center")
 
-    def hideModal(self) -> None:
+    def hide(self) -> None:
         self.place_forget()
-    
+
     def reload(self) -> None:
         self.master.reload()

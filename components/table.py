@@ -17,7 +17,7 @@ class Table(CTkFrame):
         super().__init__(self.master)
 
         self.Table(self.colums, self.rows)
-        
+
     def Table(self, colums: List[str], rows: List[List[str | Number | None]]):
         # Add Some Style
         style = Style()

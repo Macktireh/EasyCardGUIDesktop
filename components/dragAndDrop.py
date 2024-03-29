@@ -1,11 +1,11 @@
-from tkinter import filedialog
+from tkinter import BOTTOM, X, filedialog
 from typing import Any, Callable, Tuple
 
 from CTkToolTip import CTkToolTip
 from customtkinter import CTkBaseClass, CTkFrame
 from tkinterdnd2 import DND_FILES
 
-from components.ui import Button, Image, InputLabel, Separator
+from components.ui import Button, Image, Input
 from config.settings import AssetsImages, Color, imagesTupple
 from utils.validator import Validator
 
@@ -28,7 +28,7 @@ class DragAndDrop(CTkFrame):
     def __init__(
         self,
         master: CTkBaseClass,
-        extractCode: Callable,
+        extractCode: Callable[[str], None],
         fg_color: str | Tuple[str, str] | None = Color.BG_CARD,
         **kwargs,
     ) -> None:
@@ -39,8 +39,8 @@ class DragAndDrop(CTkFrame):
             master=self,
             text=self.BUTTON_DND_TEXT,
             image=self.DRAG_AND_DROP_IMAGE,
-            width=700,
-            height=200,
+            # width=700,
+            # height=200,
             textColor=Color.TEXT_GRAY,
             fg_color=Color.BG_BUTON_DND,
             hover_color=Color.BG_BUTON_DND,
@@ -48,12 +48,13 @@ class DragAndDrop(CTkFrame):
         )
         CTkToolTip(self.buttonDnD, delay=0.3, message=self.BUTTON_DND_TEXT)
 
-        self.pathFrame = CTkFrame(master=self, fg_color="transparent")
-        self.pathEntry = InputLabel(master=self.pathFrame, label="", state="readonly", width=450, bgColor=Color.BG_CARD)
+        self.pathFrame = CTkFrame(master=self, fg_color=Color.TRANSPARENT, height=45)
+        self.pathEntry = Input(master=self.pathFrame, state="readonly", fg_color=Color.BG_CARD)
+        # self.pathEntry = Input(master=self.pathFrame, state="readonly", width=450, fg_color=Color.BG_CARD)
         self.extractButton = Button(
             master=self.pathFrame,
             text="Extract Code",
-            width=90,
+            width=70,
             height=20,
             image=self.EXTRACT_IMAGE,
             textColor=Color.WHITE,
@@ -81,15 +82,21 @@ class DragAndDrop(CTkFrame):
 
     def render(self) -> None:
         # self.pack(pady=15, ipadx=8, ipady=4)
-        Separator(self, height=8).pack()
-        self.buttonDnD.pack()
-        Separator(self, height=8).pack()
-        self.pathEntry.pack(padx=8, side="left", expand=True)
-        self.extractButton.pack(side="left", expand=True)
-        self.resetPathButton.pack(padx=8, side="left", expand=True)
+        # Separator(self, height=8).pack()
+        # self.buttonDnD.pack(fill=BOTH, expand=True, padx=8)
+        # self.pathFrame.pack(side=BOTTOM, fill=X)
+        self.buttonDnD.place(relx=0.015, rely=0.05, relwidth=0.97, relheight=0.75)
+        # Separator(self, height=8).pack()
+        self.pathEntry.place(relx=0.015, rely=0.15, relwidth=0.7)
+        self.extractButton.place(relx=0.73, rely=0.15)
+        self.resetPathButton.place(relx=0.94, rely=0.15)
+        # self.pathEntry.pack(side=LEFT, fill=X, expand=True)
+        # self.extractButton.pack(side=RIGHT, expand=True)
+        # self.resetPathButton.pack(padx=8, side=RIGHT, expand=True)
 
     def displayPathFrame(self) -> None:
-        self.pathFrame.pack()
+        self.pathFrame.pack(side=BOTTOM, fill=X)
+        # self.pathFrame.pack(side=BOTTOM, fill=X, padx=8, pady=(0, 8))
 
     def hidePathFrame(self) -> None:
         self.pathFrame.pack_forget()
