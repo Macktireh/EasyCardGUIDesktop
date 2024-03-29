@@ -43,7 +43,7 @@ class Navigation(CTkFrame):
     HEIGHT_BUTTON = 40
     SIDEBAR_WIDTH = 200
     SIDEBAR_WIDTH_MINI = 50
-    SIDEBAR_LARGE = False
+    SIDEBAR_LARGE = True
 
     def __init__(self, master: CTkBaseClass, width: int = 200, height: int = 600) -> None:
         self.master = master
@@ -58,10 +58,10 @@ class Navigation(CTkFrame):
             corner_radius=0,
         )
 
-        self.frame = CTkFrame(self, width=self.width, height=650, fg_color="transparent")
+        self.frame = CTkFrame(self, width=self.width, height=650, fg_color=Color.TRANSPARENT)
         self.frame.pack(expand=True, fill="both", padx=8)
 
-        self.boxTitle = CTkFrame(self.frame, width=self.width * 0.9, fg_color="transparent")
+        self.boxTitle = CTkFrame(self.frame, width=self.width * 0.9, fg_color=Color.TRANSPARENT)
         self.menu = Label(
             self.boxTitle,
             text="",
@@ -71,12 +71,13 @@ class Navigation(CTkFrame):
             imageSize=self.SIZE_BUTTON,
             corner_radius=10,
         )
-        self.menu.pack(pady=(10, 20), side="left")
+        self.menu.pack(pady=(10, 0), side="left")
+        # self.menu.pack(pady=(10, 20), side="left")
         self.menu.bind("<Button-1>", lambda event: self.sideBarSizeToggle())
 
         for i in [self.menu]:
             i.bind("<Enter>", lambda event: self.menu.configure(fg_color=Color.BG_CARD, cursor="hand2"))
-            i.bind("<Leave>", lambda event: self.menu.configure(fg_color="transparent", cursor=""))
+            i.bind("<Leave>", lambda event: self.menu.configure(fg_color=Color.TRANSPARENT, cursor=""))
         # Label(self.boxTitle, text="", image=AssetsImages.LOGO, imageSize=(40, 40)).pack()
         # Label(
         #     self.boxTitle,
@@ -193,7 +194,7 @@ class Navigation(CTkFrame):
         self.boxTitle.grid(row=1, column=0, sticky="ew")
 
         row = 2
-        Separator(self.frame, height=110).grid(row=row, column=0)
+        Separator(self.frame, height=10).grid(row=row, column=0)
         self.dashboard.grid(row=row + 1, column=0, sticky="ew")
 
         Separator(self.frame).grid(row=row + 2, column=0)
@@ -211,7 +212,7 @@ class Navigation(CTkFrame):
         # Separator(self.frame, height=43).grid(row=row + 10, column=0)
         self.exit.place(x=0, y=0, relx=1, rely=0.975, anchor="se")
         # self.exit.grid(row=row + 11, column=0, sticky="s")
-    
+
     def sideBarSizeToggle(self) -> None:
         screen_defaults = {
             self.dashboard: ScreenName.DASHBOARD_TITLE,
@@ -227,12 +228,11 @@ class Navigation(CTkFrame):
         else:
             for screen_object, title in screen_defaults.items():
                 screen_object.configure(text=f"  {title}", anchor="w")
-        
+
         self.contractSideBar()
 
-
         # self.SIDEBAR_LARGE = not self.SIDEBAR_LARGE
-    
+
     def contractSideBar(self) -> None:
         screen_defaults = {
             self.boxTitle: "",
@@ -258,7 +258,6 @@ class Navigation(CTkFrame):
                 screen_object.configure(width=self.SIDEBAR_WIDTH * 0.9)
                 # self.after(10, self.contractSideBar)
         self.SIDEBAR_LARGE = not self.SIDEBAR_LARGE
-
 
     def navigate(self, screen: str) -> None:
         """

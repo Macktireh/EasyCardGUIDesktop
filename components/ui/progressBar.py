@@ -1,5 +1,7 @@
 from customtkinter import CTkBaseClass, CTkFrame, CTkLabel, CTkProgressBar
 
+from config.settings import Color
+
 
 class ProgressBar(CTkFrame):
     def __init__(
@@ -14,7 +16,7 @@ class ProgressBar(CTkFrame):
         self.height = height
         self.defaultValue = defaultValue
 
-        super().__init__(self.master, width=self.width, height=self.height, fg_color="transparent")
+        super().__init__(self.master, width=self.width, height=self.height, fg_color=Color.TRANSPARENT)
 
         self.label = CTkLabel(self, text=f"{int(self.defaultValue * 100)}%", width=self.width // 5)
         self.label.pack(side="left", padx=5, pady=10)

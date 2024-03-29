@@ -33,7 +33,7 @@ class UpdateCardRow(CTkFrame):
         self._id = _id
 
         self.inputCode = InputLabel(
-            self, label=f"Code {_id}", defaultValue=code, width=200, entryBgColor=Color.BG_CONTENT
+            self, label=f"Code {_id}", defaultValue=code, width=200, entryBgColor=Color.BG_CONTENT, vertical=False
         )
         self.cardTypeVar = StringVar(self, value=cardType)
         self.cardTypeInput = CTkOptionMenu(

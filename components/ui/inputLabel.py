@@ -3,6 +3,7 @@ from typing import Tuple
 from customtkinter import CTkBaseClass, CTkEntry, CTkFrame, CTkLabel
 
 from components.ui.separator import Separator
+from config.settings import Color
 
 
 class InputLabel(CTkFrame):
@@ -18,8 +19,8 @@ class InputLabel(CTkFrame):
         isPassword: bool = False,
         state: str = "normal",
         sep: int = 0,
-        bgColor: str | Tuple[str, str] = "transparent",
-        entryBgColor: str | Tuple[str, str] = "transparent",
+        bgColor: str | Tuple[str, str] = Color.TRANSPARENT,
+        entryBgColor: str | Tuple[str, str] = Color.TRANSPARENT,
         vertical: bool = True,
     ) -> None:
         self.master = master
@@ -35,7 +36,7 @@ class InputLabel(CTkFrame):
         super().__init__(self.master, width=self.width, height=self.height, fg_color=bgColor)
 
         if self.label:
-            self.label = CTkLabel(self, text=self.label, width=labelWidth, fg_color="transparent")
+            self.label = CTkLabel(self, text=self.label, width=labelWidth, fg_color=Color.TRANSPARENT)
             self.label.pack(expand=True, anchor="w", side="top" if vertical else "left")
             Separator(self, width=sep).pack(expand=True, side="top" if vertical else "left")
 
