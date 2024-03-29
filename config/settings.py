@@ -63,15 +63,18 @@ class AssetsImages:
     RELOAD_LIGHT = "reload-black.png"
     INFO_DARK = "info-white.png"
     INFO_LIGHT = "info-black.png"
-    LOADING_GIF = BASE_DIR / "assets" / "images" / "spin3.gif"
+    LOADING_GIF = BASE_DIR / "assets" / "images" / "spin2.gif"
 
 
 class Color:
+    TRANSPARENT = "transparent"
     WHITE = "#FFFFFF"
     BLACK = "#000000"
     GRAY = "#CCCCCC"
     RED = "#c60101"
     ORANGE = "#d97706"
+    GREEN = "#017a01"
+    BLUE = "#035fa1"
     TEXT = ("#000000", "#FFFFFF")
     TEXT_GRAY = ("#535050", "#9e9a9a")
     BG_CONTENT = ("#e0e0ff", "#2b2b31")
