@@ -100,13 +100,13 @@ def getCardsCreatedWeekAgo(cards):
 
     # Date actuelle
     current_date = datetime.now()
-    duration = timedelta(days=25)
+    duration = timedelta(days=3)
 
     # Parcourir chaque carte dans la liste
     for card in cards:
         creation_date = datetime.strptime(card["createdAt"], "%Y-%m-%dT%H:%M:%S.%f")
 
-        # Vérifier si la carte a été créée dans les 7 derniers jours
+        # Vérifier si la carte a été créée dans les 5 derniers jours
         if current_date - creation_date <= duration:
             # Extraire la date uniquement sans l'heure
             creation_day = creation_date.strftime("%Y-%m-%d")
