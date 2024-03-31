@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from threading import Thread
 from tkinter import StringVar
 from typing import List, Literal
@@ -6,7 +7,7 @@ import matplotlib.pyplot as plt
 from customtkinter import CTkBaseClass, CTkFrame
 
 from components import Modal, Toast
-from components.loader import Loader
+from components.notify import Notify
 from config.settings import Color, ScreenName
 from models.types import CreditCardDictOut
 from screens.dashboardScreen import DashboardScreen
@@ -27,7 +28,7 @@ class ScreenManager(CTkFrame):
         self.width = width
         self.height = height
         self.authService = authService
-        self.creditCardService = CreditCardServiceImpl()
+        self.creditCardService = CreditCardServiceImpl(self.checkAuthentication)
 
         super().__init__(
             self.master,
@@ -43,7 +44,7 @@ class ScreenManager(CTkFrame):
             text="The API key is either not valid or could not be found. Please check your API key or reconnect again.",
         )
 
-        response, _ = self.creditCardService.getAllCreditCards(self.checkAuthentication)
+        response, _ = self.creditCardService.getAllCreditCards()
 
         self.data = response.json() if response.is_success else []
 
@@ -52,16 +53,15 @@ class ScreenManager(CTkFrame):
         self.rentder(self.master.currentScreen)
         self.updateApiKey()
 
-        self.loader = Loader(self)
-        # self.loader.show()
-
         self.modal = Modal(
             self, text="Oops, we have an authentication problem.\n Please reload the application and try again."
         )
         self.modal.show()
         self.after(100, self.modal.hide)
 
-    def getCurrentScreenObj(self):
+        self.notify = Notify(self)
+
+    def getCurrentScreenObj(self) -> DashboardScreen | NewCardScreen | DataScreen | SettingScreen | None:
         match self.master.currentScreen:
             case ScreenName.DASHBOARD:
                 return self.dashboardScreen
@@ -92,7 +92,7 @@ class ScreenManager(CTkFrame):
         self.initializeScreens()
 
     def getData(self) -> List[CreditCardDictOut] | None:
-        response, _ = self.creditCardService.getAllCreditCards(self.checkAuthentication)
+        response, _ = self.creditCardService.getAllCreditCards()
         return response.json() if response.is_success else []
 
     def rentder(self, screen: str) -> None:
@@ -167,12 +167,23 @@ class ScreenManager(CTkFrame):
         Check if the user is authenticated and return a boolean value.
         """
 
-        def _checkAuthentication(self):
+        def _checkAuthentication(self: ScreenManager):
             response = self.authService.verifyAPIKey()
-            print("isAuthenticate", response.is_success)
-            if not response.is_success:
-                self.modal.show()
-                self.toast.show(before=self.getCurrentScreenObj())
+            # print("isAuthenticate", response.is_success)
+            if response.status_code == HTTPStatus.UNAUTHORIZED:
+                self.modal.show(
+                    text="Oops, we have an authentication problem.\n Please reload the application and try again."
+                )
+                self.toast.show(
+                    text="The API key is either not valid or could not be found. Please check your API key or reconnect again.",  # noqa: E501
+                    before=self.getCurrentScreenObj(),
+                )
+            elif response.is_error:
+                self.modal.show(text="Something went wrong.\n Please check your connection and try again.")
+                self.toast.show(
+                    text="Something went wrong, please check your connection and try again.",
+                    before=self.getCurrentScreenObj(),
+                )
             else:
                 self.toast.hide()
                 self.modal.hide()

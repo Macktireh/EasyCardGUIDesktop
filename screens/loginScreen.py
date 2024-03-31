@@ -79,9 +79,7 @@ class LoginScreen(CTkFrame):
     def handleLogin(self) -> None:
         # return
         payload = {"email": self.email.getValue(), "password": self.password.getValue()}
-        print(payload)
         response = self.authService.login(payload)
-        print(response.json())
         if response.is_success:
             self.errorLabel.grid_forget()
             # self.master.reRenderScreenManager()
