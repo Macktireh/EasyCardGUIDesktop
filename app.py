@@ -2,7 +2,7 @@ from customtkinter import CTk
 from tkinterdnd2.TkinterDnD import DnDWrapper, _require
 
 from components import Navigation
-from config.settings import ScreenName
+from config.settings import AssetsImages, ScreenName
 from screens import ScreenManager
 from services.authServiceImpl import AuthServiceImpl
 
@@ -15,6 +15,7 @@ class App(CTk, DnDWrapper):
         super().__init__()
         self.TkdndVersion = _require(self)
         self.title("EasyCard")
+        self.iconbitmap(AssetsImages.ICON)
         self.minsize(800, 600)
         self.centerWindow()
 
@@ -63,7 +64,6 @@ class App(CTk, DnDWrapper):
         Check if the user is authenticated and return a boolean value.
         """
         response = self.authService.verifyAPIKey()
-        print("isAuthenticate", response.is_success)
         return response.is_success
 
     def logout(self) -> None:
