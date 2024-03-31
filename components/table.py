@@ -13,6 +13,7 @@ class Table(CTkFrame):
         self.master = master
         self.colums = colums
         self.rows = rows
+        self.count = 0
 
         super().__init__(self.master)
 
@@ -44,10 +45,6 @@ class Table(CTkFrame):
         # Change Selected Color
         style.map("Treeview", background=[("selected", Color.BG_ACTIVE_BUTTON_NAVIGATION[1])])
 
-        def clear_data():
-            self.tv_All_Data.delete(*self.tv_All_Data.get_children())
-            return None
-
         # frame1 = tk.LabelFrame(self.show_data, text=f"{path}")
         # frame1.place(height=420, width=768, rely=0.02, relx=0.02)
 
@@ -69,9 +66,6 @@ class Table(CTkFrame):
         # faire en sorte que la barre de défilement remplisse l'axe y du widget Treeview
         treescrolly.pack(side="right", fill="y")
 
-        global count
-        count = 0
-
         self.tv_All_Data.tag_configure("oddrow", background=Color.BG_ALT_TREEVIEW[0])
         self.tv_All_Data.tag_configure("evenrow", background=Color.BG_ALT_TREEVIEW[1])
 
@@ -88,28 +82,30 @@ class Table(CTkFrame):
             self.tv_All_Data.column(column, anchor="w")
             self.tv_All_Data.heading(column, anchor="w", text=column)
 
-        # self.df_rows = df.to_numpy().tolist()
-
-        # print()
-        # print(self.df_rows)
-        # print()
-
         for row in rows:
-            if count % 2 == 0:
-                self.tv_All_Data.insert(
-                    "",
-                    "end",
-                    iid=count,
-                    values=row,
-                    tags=("evenrow",),
-                )
-            else:
-                self.tv_All_Data.insert(
-                    "",
-                    "end",
-                    iid=count,
-                    values=row,
-                    tags=("oddrow",),
-                )
-            count += 1
+            self.add_row(row)
         self.tv_All_Data.insert("", "end", values="")
+
+        # last_row = self.tv_All_Data.get_children()[-2]
+        # print("last_row", last_row)
+        # last_Item = self.tv_All_Data.item(last_row)
+        # print("last_Item", last_Item)
+
+    def add_row(self, row: List[str | Number | None]) -> None:
+        if self.count % 2 == 0:
+            self.tv_All_Data.insert(
+                "",
+                "end",
+                iid=self.count,
+                values=row,
+                tags=("evenrow",),
+            )
+        else:
+            self.tv_All_Data.insert(
+                "",
+                "end",
+                iid=self.count,
+                values=row,
+                tags=("oddrow",),
+            )
+        self.count += 1
