@@ -1,7 +1,7 @@
 from tkinter import Label, PhotoImage, Tk
 from typing import Any
 
-from config.settings import IMAGES_DIR, Color
+from config.settings import AssetsImages, Color
 
 
 class SplashScreen(Tk):
@@ -36,7 +36,7 @@ class SplashScreen(Tk):
         self.BtnExit.place(relx=0.913, rely=0.001)
         self.BtnExit.bind("<Button-1>", lambda e: self.quit())
 
-        self.splach_logo = PhotoImage(file=f"{IMAGES_DIR}/logo.png")
+        self.splach_logo = PhotoImage(file=AssetsImages.LOGO)
         self.splach_logo = self.splach_logo.subsample(7, 7)
 
         self.label_show_splach_logo = Label(
