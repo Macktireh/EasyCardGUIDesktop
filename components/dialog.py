@@ -199,12 +199,27 @@ class Dialog(CTkToplevel):
                 )
 
     def _ok_event(self, event=None) -> None:
-        if self._entry.get() == "":
+        code = self._entry.get()
+        if not code:
             self._label_error.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
-            self._label_error.configure(text="Please enter a value")
+            self._label_error.configure(text="Please enter a value", text_color=Color.RED)
             self._label_error.after(10000, lambda: self._label_error.grid_forget())
             self._entry.configure(border_color=Color.RED)
             self._entry.focus()
+            return
+        elif len(code) != 12 or not code.isdigit():
+            self._label_error.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
+            self._label_error.configure(text="Code is invalid, must be 12 digits", text_color=Color.RED)
+            self._label_error.after(10000, lambda: self._label_error.grid_forget())
+            self._entry.configure(border_color=Color.RED)
+            self._entry.focus()
+            return
+        elif self._dropdown.get() == "":
+            self._label_error.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
+            self._label_error.configure(text="Please select a value", text_color=Color.RED)
+            self._label_error.after(10000, lambda: self._label_error.grid_forget())
+            self._dropdown.configure(border_color=Color.RED)
+            self._dropdown.focus()
             return
         self._user_input = self._entry.get()
         self._dropdown_value = self._dropdown.get()
