@@ -11,8 +11,8 @@ imagesTupple = namedtuple("images", ["light", "dark"])
 
 
 class AssetsImages:
-    ICON = "icon.ico"
-    LOGO = "logo.png"
+    ICON = IMAGES_DIR / "logo1.ico"
+    LOGO = IMAGES_DIR / "logo1.png"
     CARD_CREDIT_DARK = "card-credit.jpg"
     CARD_CREDIT_LIGHT = "card-credit.jpg"
     DASHBOARD_DARK = "dashboard-white.png"
@@ -63,7 +63,9 @@ class AssetsImages:
     RELOAD_LIGHT = "reload-black.png"
     INFO_DARK = "info-white.png"
     INFO_LIGHT = "info-black.png"
-    LOADING_GIF = BASE_DIR / "assets" / "images" / "spin2.gif"
+    REFRESH_DARK = "refresh-white.png"
+    REFRESH_LIGHT = "refresh-black.png"
+    LOADING_GIF = IMAGES_DIR / "spin2.gif"
 
 
 class Color:
