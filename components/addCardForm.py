@@ -25,7 +25,7 @@ class AddCardForm(CTkScrollableFrame):
     def __init__(
         self,
         master: CTkBaseClass,
-        width: int = 690,
+        width: int = 1050,
         height: int = 250,
         fg_color: str | Tuple[str, str] | None = Color.BG_CARD,
         **kwargs,
@@ -37,7 +37,7 @@ class AddCardForm(CTkScrollableFrame):
     def _render(self, cardNumbers: List[str]) -> None:
         _LIST_ROW_WIDGET_NAMES = []
         for i, code in enumerate(cardNumbers):
-            u = UpdateCardRow(master=self, _id=i + 1, code=code, width=self.width * 0.9)
+            u = UpdateCardRow(master=self, _id=i + 1, code=code, width=self.width * 0.95)
             u.pack(padx=10, pady=8)
             _LIST_ROW_WIDGET_NAMES.append(u.winfo_name())
         return _LIST_ROW_WIDGET_NAMES
@@ -55,6 +55,9 @@ class AddCardForm(CTkScrollableFrame):
         u.pack(padx=10, pady=8)
         self.LIST_ROW_WIDGET_NAMES.append(u.winfo_name())
 
+    def getFormsData(self) -> List[CreditCardDictIn]:
+        return [self.nametowidget(name).getFormData() for name in self.LIST_ROW_WIDGET_NAMES]
+
     def updateRender(self, cardNumbers: List[str]) -> None:
         for name in self.LIST_ROW_WIDGET_NAMES:
             self.nametowidget(name).destroy()
@@ -64,3 +67,8 @@ class AddCardForm(CTkScrollableFrame):
     def onDeleteForm(self, code: str, name) -> None:
         self.LIST_ROW_WIDGET_NAMES = [x for x in self.LIST_ROW_WIDGET_NAMES if x != name]
         self.master.onDelete(code)
+
+    def deleteAllForms(self) -> None:
+        for name in self.LIST_ROW_WIDGET_NAMES:
+            self.nametowidget(name).deleteCard()
+        # self.LIST_ROW_WIDGET_NAMES = []
