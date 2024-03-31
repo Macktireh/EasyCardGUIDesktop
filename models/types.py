@@ -12,6 +12,10 @@ class CreditCardDictIn(TypedDict):
     cardType: Literal["500", "1000", "2000", "5000", "10000"]
 
 
+class AllCreditCardDictIn(TypedDict):
+    cards: List[CreditCardDictIn]
+
+
 class CreditCardDictOut(TypedDict):
     publicId: str
     code: str

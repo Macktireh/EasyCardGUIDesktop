@@ -36,7 +36,7 @@ class AuthServiceImpl(AuthService):
         return response
 
     def getAPIKey(self) -> str | None:
-        if self.apiKeyPath.exists():
+        if self.apiKeyPath.exists() and self.apiKeyPath.is_file():
             return self.apiKeyPath.read_text().strip()
         return None
 
