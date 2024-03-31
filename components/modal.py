@@ -49,9 +49,11 @@ class Modal(CTkFrame):
         )
         self.reloadButton.place(relx=0.75, rely=0.75)
 
-    def show(self) -> None:
+    def show(self, text: str | None = None) -> None:
+        if text:
+            self.label.configure(text=text)
+
         self.place(relx=0.5, rely=0.5, anchor="center")
-        # self.place(relx=0.5, rely=0.5, relwidth=0.4, relheight=0.25, anchor="center")
 
     def hide(self) -> None:
         self.place_forget()
