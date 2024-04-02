@@ -1,7 +1,8 @@
 from http import HTTPStatus
-from typing import Callable, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
-from httpx import Client, ConnectError, Response, TimeoutException
+from httpx import USE_CLIENT_DEFAULT, Client, ConnectError, Response, TimeoutException
+from httpx._types import QueryParamTypes, RequestFiles, TimeoutTypes
 
 from config.settings import BASE_API_URL
 from models.types import AllCreditCardDictIn, CreditCardDictIn
@@ -19,14 +20,15 @@ class CreditCardServiceImpl(CreditCardService):
         self,
         method: str,
         endpoint: str,
-        params: dict = None,
-        json_data=None,
-        files=None,
+        params: QueryParamTypes | None = None,
+        json_data: Dict[str, Any] | None = None,
+        files: RequestFiles | None = None,
+        timeout: TimeoutTypes = USE_CLIENT_DEFAULT,
         callback: Optional[Callable[[], None]] = None,
     ) -> Tuple[Response, bool]:
         self.apiKey = self.authService.getAPIKey()
         if not self.apiKey:
-            return None, False
+            return Response(HTTPStatus.INTERNAL_SERVER_ERROR, json={"message": "Server error"}), False
 
         if params is None:
             params = {}
@@ -36,13 +38,15 @@ class CreditCardServiceImpl(CreditCardService):
         try:
             match method:
                 case "post":
-                    response = self.HTTPClient.post(endpoint, params=params, json=json_data, files=files)
+                    response = self.HTTPClient.post(
+                        endpoint, params=params, json=json_data, files=files, timeout=timeout
+                    )
                 case "get":
-                    response = self.HTTPClient.get(endpoint, params=params)
+                    response = self.HTTPClient.get(endpoint, params=params, timeout=timeout)
                 case "patch":
-                    response = self.HTTPClient.patch(endpoint, params=params, data=json_data)
+                    response = self.HTTPClient.patch(endpoint, params=params, data=json_data, timeout=timeout)
                 case "delete":
-                    response = self.HTTPClient.delete(endpoint, params=params)
+                    response = self.HTTPClient.delete(endpoint, params=params, timeout=timeout)
                 case _:
                     return None, False
         except (ConnectError, TimeoutException):
@@ -60,29 +64,33 @@ class CreditCardServiceImpl(CreditCardService):
     def addCreditCard(
         self, payload: CreditCardDictIn, callback: Optional[Callable[[], None]] = None
     ) -> Tuple[Response, bool]:
-        return self._make_request("post", "/cards", json_data=payload, callback=callback)
+        return self._make_request(method="post", endpoint="/cards", json_data=payload, callback=callback)
 
     def addAllCreditCards(
         self, payload: AllCreditCardDictIn, callback: Optional[Callable[[], None]] = None
     ) -> Tuple[Response, bool]:
-        return self._make_request("post", "/cards/all", json_data=payload, callback=callback)
+        return self._make_request(method="post", endpoint="/cards/all", json_data=payload, callback=callback)
 
     def getAllCreditCards(self, callback: Optional[Callable[[], None]] = None) -> Tuple[Response, bool]:
-        return self._make_request("get", "/cards", callback=callback)
+        return self._make_request(method="get", endpoint="/cards", callback=callback)
 
     def getCreditCard(self, id: str, callback: Optional[Callable[[], None]] = None) -> Tuple[Response, bool]:
-        return self._make_request("get", f"/cards/{id}", callback=callback)
+        return self._make_request(method="get", endpoint=f"/cards/{id}", callback=callback)
 
     def updateCreditCard(
         self, id: str, payload: CreditCardDictIn, callback: Optional[Callable[[], None]] = None
     ) -> Tuple[Response, bool]:
-        return self._make_request("patch", f"/cards/{id}", json_data=payload, callback=callback)
+        return self._make_request(method="patch", endpoint=f"/cards/{id}", json_data=payload, callback=callback)
 
     def deleteCreditCard(self, id: str, callback: Optional[Callable[[], None]] = None) -> Tuple[Response, bool]:
-        return self._make_request("delete", f"/cards/{id}", callback=callback)
+        return self._make_request(method="delete", endpoint=f"/cards/{id}", callback=callback)
 
     def extractCreditCard(self, path: str, callback: Optional[Callable[[], None]] = None) -> Tuple[Response, bool]:
         with open(path, "rb") as image:
             return self._make_request(
-                "post", "/cards/extract", files={"image": image}, params={"timeout": 10}, callback=callback
+                method="post",
+                endpoint="/cards/extract",
+                files={"image": image},
+                timeout=10,
+                callback=callback,
             )
