@@ -1,3 +1,6 @@
+import contextlib
+from tkinter import TclError
+
 from customtkinter import CTkBaseClass, CTkFrame
 
 from components.ui import Button, Label
@@ -8,7 +11,7 @@ class Modal(CTkFrame):
     def __init__(
         self,
         master: CTkBaseClass,
-        text: str,
+        text: str = "Modal",
         fg_color: str = Color.BG_BUTON_DND,
     ) -> None:
         self.master = master
@@ -56,7 +59,8 @@ class Modal(CTkFrame):
         self.place(relx=0.5, rely=0.5, anchor="center")
 
     def hide(self) -> None:
-        self.place_forget()
+        with contextlib.suppress(Exception, TclError):
+            self.place_forget()
 
     def reload(self) -> None:
         self.master.reload()
