@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "easycreditcard"
 version = "0.1.0"
-description = ""
+description = "EasyCardGUIDesktop is a graphical user interface (GUI) application designed to complement the EasyCardBackend project. This desktop application provides a user-friendly interface for managing credit cards and utilizes artificial intelligence to extract credit card numbers from images."
 authors = ["Macktireh <abdimack97@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -9,12 +9,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 customtkinter = "^5.2.1"
+ctktooltip = "^0.8"
+httpx = "^0.26.0"
 matplotlib = "^3.8.2"
 packaging = "^23.2"
 pillow = "^10.1.0"
-httpx = "^0.26.0"
+python-dotenv = "^1.0.1"
 tkinterdnd2 = "^0.3.0"
-ctktooltip = "^0.8"
 
 
 [tool.poetry.group.dev.dependencies]
