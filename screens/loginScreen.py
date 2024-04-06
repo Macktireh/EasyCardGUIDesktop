@@ -6,6 +6,7 @@ from customtkinter import CTkBaseClass, CTkFrame
 from components.ui import Button, InputLabel, Label
 from config.settings import AssetsImages, Color, ScreenName, imagesTupple
 from services.authService import AuthService
+from utils import getEnvVar
 
 
 class LoginScreen(CTkFrame):
@@ -20,6 +21,8 @@ class LoginScreen(CTkFrame):
         self.master = master
         self.authService = authService
         self.callback = callback
+        self._email = getEnvVar("EMAIL", required=False)
+        self._password = getEnvVar("PASSWORD", required=False)
 
         super().__init__(
             self.master,
@@ -44,11 +47,17 @@ class LoginScreen(CTkFrame):
         Label(leftFrame, text="", image=self.CARD_CREDIT_IMAGE, imageSize=(450, 300)).pack(pady=20)
 
         self.email = InputLabel(
-            rightFrame, label="Email", width=300, labelWidth=45, height=50, defaultValue="admin@example.com"
+            rightFrame, label="Email", width=300, labelWidth=45, height=50, defaultValue=self._email
         )
         self.email.grid(row=0, column=0, pady=(20, 10))
         self.password = InputLabel(
-            rightFrame, label="Password", width=300, height=50, labelWidth=70, isPassword=True, defaultValue="admin"
+            rightFrame,
+            label="Password",
+            width=300,
+            height=50,
+            labelWidth=70,
+            isPassword=True,
+            defaultValue=self._password,
         )
         self.password.grid(row=1, column=0, pady=(10, 20))
 
