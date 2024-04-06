@@ -8,6 +8,7 @@
     "**/.coverage": true,
     "**/.ruff_cache": true,
     "**/poetry.lock": true,
+    "**/__pycache__": true
   },
   "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test*.py"],
   "python.testing.pytestEnabled": false,
