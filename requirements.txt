@@ -1,6 +1,8 @@
 customtkinter
 CTkToolTip
+httpx
 matplotlib
 packaging
+python-dotenv
 Pillow
 tkinterdnd2
