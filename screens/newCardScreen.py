@@ -143,7 +143,6 @@ class NewCardScreen(CTkFrame):
                 payload = CreditCardDictIn(code=data["code"], cardType=data["type"].replace(" FDJ", ""))
                 response, _ = self.creditCardService.addCreditCard(payload)
                 if response.is_success:
-                    self.form.deleteAllForms()
                     self.master.notify.show(text="Card saved successfully")
                 else:
                     msg = response.json().get("message", "Failed to save card")
