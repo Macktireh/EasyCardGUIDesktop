@@ -53,12 +53,7 @@ class ScreenManager(CTkFrame):
         self.rentder(self.master.currentScreen)
         self.updateApiKey()
 
-        self.modal = Modal(
-            self, text="Oops, we have an authentication problem.\n Please reload the application and try again."
-        )
-        self.modal.show()
-        self.after(100, self.modal.hide)
-
+        self.modal = Modal(self)
         self.notify = Notify(self)
 
     def getCurrentScreenObj(self) -> DashboardScreen | NewCardScreen | DataScreen | SettingScreen | None:
@@ -90,6 +85,8 @@ class ScreenManager(CTkFrame):
         self.data = self.getData()
         self.destroyScreens()
         self.initializeScreens()
+        self.modal = Modal(self)
+        self.notify = Notify(self)
 
     def getData(self) -> List[CreditCardDictOut] | None:
         response, _ = self.creditCardService.getAllCreditCards()
@@ -169,7 +166,6 @@ class ScreenManager(CTkFrame):
 
         def _checkAuthentication(self: ScreenManager):
             response = self.authService.verifyAPIKey()
-            # print("isAuthenticate", response.is_success)
             if response.status_code == HTTPStatus.UNAUTHORIZED:
                 self.modal.show(
                     text="Oops, we have an authentication problem.\n Please reload the application and try again."
