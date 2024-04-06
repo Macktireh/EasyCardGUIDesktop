@@ -1,7 +1,11 @@
 from collections import namedtuple
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
 
 IMAGES_DIR = BASE_DIR / "assets" / "images"
 

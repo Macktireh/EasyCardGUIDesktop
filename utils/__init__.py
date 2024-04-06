@@ -1,3 +1,4 @@
+import os
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import List, Literal, Tuple
@@ -118,3 +119,10 @@ def getCardsCreatedWeekAgo(cards):
 
     # Extraire les données pour le tracé
     return list(sorted_cards_per_day.keys()), list(sorted_cards_per_day.values())
+
+
+def getEnvVar(varName: str, default: str = "", required: bool = True) -> str | None:
+    value = os.environ.get(varName, default=default)
+    if required and not value:
+        raise Exception(f"Environment variable {varName} is required")
+    return value
