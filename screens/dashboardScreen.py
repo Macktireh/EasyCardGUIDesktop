@@ -105,6 +105,8 @@ class DashboardScreen(CTkFrame):
             x=dates,
             y=values,
             title="Number of cards created this week",
+            x_label="Date",
+            y_label="Number of cards",
             labelColor=(Color.WHITE, Color.WHITE) if self.currentTheme == "dark" else (Color.BLACK, Color.BLACK),
             barColor=Color.BG_ACTIVE_BUTTON_NAVIGATION[1]
             if self.currentTheme == "dark"

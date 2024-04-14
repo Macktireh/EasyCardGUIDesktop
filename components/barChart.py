@@ -17,6 +17,8 @@ class BarChart(CTkFrame):
         x: Tuple[Any, ...] | Any,
         y: Tuple[Number, ...] | Number,
         title: str = "Bar Chart",
+        x_label: str = "X-axis",
+        y_label: str = "Y-axis",
         titleColor: str = "black",
         barColor: str = "skyblue",
         labelColor: Tuple[str, str] = ("black", "black"),
@@ -27,6 +29,8 @@ class BarChart(CTkFrame):
         self.x = x
         self.y = y
         self.title = title
+        self.x_label = x_label
+        self.y_label = y_label
         self.titleColor = titleColor
         self.barColor = barColor
         self.labelColor = labelColor
@@ -44,7 +48,14 @@ class BarChart(CTkFrame):
         self.showChart()
 
     def showChart(self) -> None:
-        fig = self.chartService.bar(x=self.x, y=self.y, barColor=self.barColor, labelColor=self.labelColor)
+        fig = self.chartService.bar(
+            x=self.x,
+            y=self.y,
+            barColor=self.barColor,
+            labelColor=self.labelColor,
+            x_label=self.x_label,
+            y_label=self.y_label,
+        )
         self.canvas = FigureCanvasTkAgg(fig, master=self).get_tk_widget()
         self.canvas.pack(fill="both", expand=True)
 

@@ -35,6 +35,8 @@ class MatplotlibService(ChartService):
         y: Tuple[Number, ...] | Number,
         barColor: str = "skyblue",
         labelColor: Tuple[str, str] = ("black", "black"),
+        x_label: str = "X-axis",
+        y_label: str = "Y-axis",
     ) -> Figure:
         """
         Plots a bar chart with the given data.
@@ -50,8 +52,8 @@ class MatplotlibService(ChartService):
         """
         fig, ax = self.plt.subplots()
         bars = ax.bar(x, y, color=barColor)
-        ax.set_xlabel("X-axis", color=labelColor[0])
-        ax.set_ylabel("Y-axis", color=labelColor[1])
+        ax.set_xlabel(x_label, color=labelColor[0])
+        ax.set_ylabel(y_label, color=labelColor[1])
 
         for bar in bars:
             yval = bar.get_height()
