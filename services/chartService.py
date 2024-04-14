@@ -13,6 +13,8 @@ class ChartService(ABC):
         y: Tuple[Number, ...] | Number,
         barColor: str = "skyblue",
         labelColor: Tuple[str, str] = ("black", "black"),
+        x_label: str = "X-axis",
+        y_label: str = "Y-axis",
     ) -> Figure:
         ...
 
