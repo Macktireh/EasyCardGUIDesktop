@@ -30,7 +30,7 @@ To see EasyCardGUIDesktop in action, watch the demonstration video below:
 
 Before setting up the EasyCardGUIDesktop, ensure that the EasyCardBackend is up and running. The backend API is necessary for managing credit cards and extracting credit card numbers using artificial intelligence.
 
-- EasyCardBackend: Follow the instructions in the [EasyCardBackend repository](https://github.com/Macktireh/EasyCardBackend.git) to set up the backend service.
+- EasyCardBackend: Follow the instructions in the [EasyCardBackend repository](https://github.com/Macktireh/EasyCardBackend) to set up the backend service.
 - Python 3.10 or higher
 - Python Libraries: customTkinter, tkinterdnd2, etc (see pyproject.toml).
 
