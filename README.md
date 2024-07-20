@@ -31,8 +31,8 @@ To see EasyCardGUIDesktop in action, watch the demonstration video below:
 Before setting up the EasyCardGUIDesktop, ensure that the EasyCardBackend is up and running. The backend API is necessary for managing credit cards and extracting credit card numbers using artificial intelligence.
 
 - EasyCardBackend: Follow the instructions in the [EasyCardBackend repository](https://github.com/Macktireh/EasyCardBackend.git) to set up the backend service.
-- Python 3.10 or higher
-- Python Libraries: customTkinter, tkinterdnd2, etc (see pyproject.toml).
+- Python 3.12 or higher
+- Install [PDM](https://pdm-project.org/)
 
 ## Getting Started
 
@@ -49,7 +49,7 @@ cd EasyCardGUIDesktop
 ### 2. Install Dependencies
 
 ```bash
-poetry install
+pdm install
 ```
 
 ### 3. Configuration
@@ -71,7 +71,7 @@ BASE_API_URL = "http://localhost:5000/api"  # Replace with the actual URL of you
 ### 4. Launch the Application
 
 ```bash
-poetry run python main.py
+pdm start
 ```
 
 ## License
