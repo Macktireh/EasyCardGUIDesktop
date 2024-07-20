@@ -1,42 +1,46 @@
-[tool.poetry]
-name = "easycreditcard"
+[project]
+name = "EasyCardGUIDesktop"
 version = "0.1.0"
 description = "EasyCardGUIDesktop is a graphical user interface (GUI) application designed to complement the EasyCardBackend project. This desktop application provides a user-friendly interface for managing credit cards and utilizes artificial intelligence to extract credit card numbers from images."
-authors = ["Macktireh <abdimack97@gmail.com>"]
-license = "MIT"
+authors = [
+    {name = "Macktireh", email = "abdimack97@gmail.com"},
+]
+requires-python = "==3.12.*"
 readme = "README.md"
+license = {text = "MIT"}
+dependencies = [
+    "customtkinter>=5.2.2",
+    "CTkToolTip>=0.8",
+    "httpx>=0.27.0",
+    "matplotlib>=3.9.1",
+    "packaging>=24.1",
+    "python-dotenv>=1.0.1",
+    "Pillow>=10.4.0",
+    "tkinterdnd2>=0.3.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-customtkinter = "^5.2.1"
-ctktooltip = "^0.8"
-httpx = "^0.26.0"
-matplotlib = "^3.8.2"
-packaging = "^23.2"
-pillow = "^10.1.0"
-python-dotenv = "^1.0.1"
-tkinterdnd2 = "^0.3.0"
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.5.3",
+]
 
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.1.8"
+[tool.pdm.scripts]
+start = "python main.py"
+coverage = "coverage report -m && coverage html"
+rufffix = "ruff --fix --exit-zero ."
+ruffformat = "ruff format ."
+ruffcheck = "ruff check ."
+exports = "pdm export -f requirements --without-hashes"
+ruff = {composite = ["rufffix", "ruffformat", "ruffcheck"]}
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+
+[tool.pdm]
+distribution = false
 
 
 [tool.ruff]
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = ["E", "F"]
-ignore = []
-
-line-length = 120
-
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
-unfixable = []
-
+line-length = 130
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
@@ -64,16 +68,16 @@ exclude = [
 
 [tool.ruff.lint]
 select = [
-  # pycodestyle
-  "E",
-  # Pyflakes
-  "F",
-  # pyupgrade
-  "UP",
-  # flake8-bugbear
-  "B",
-  # flake8-simplify
-  "SIM",
-  # isort
-  "I",
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
 ]
