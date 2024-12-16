@@ -34,6 +34,7 @@ Before setting up the EasyCardGUIDesktop, ensure that the EasyCardBackend is up 
 - Python 3.12 or higher
 - Install [PDM](https://pdm-project.org/)
 
+
 ## Getting Started
 
 ### 1. Clone the Project
