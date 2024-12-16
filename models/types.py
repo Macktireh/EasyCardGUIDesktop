@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Literal, TypedDict
+from typing import Literal, TypedDict
 
 
 class LoginDict(TypedDict):
@@ -13,7 +13,7 @@ class CreditCardDictIn(TypedDict):
 
 
 class AllCreditCardDictIn(TypedDict):
-    cards: List[CreditCardDictIn]
+    cards: list[CreditCardDictIn]
 
 
 class CreditCardDictOut(TypedDict):
@@ -25,7 +25,7 @@ class CreditCardDictOut(TypedDict):
     updatedAt: datetime
 
     @staticmethod
-    def columnNames() -> Dict[str, str]:
+    def columnNames() -> dict[str, str]:
         return {
             "publicId": "id",
             "code": "code",
@@ -37,7 +37,7 @@ class CreditCardDictOut(TypedDict):
 
 
 class ExtractCreditCardDict(TypedDict):
-    cardNumbers: List[str]
+    cardNumbers: list[str]
     message: str
 
 

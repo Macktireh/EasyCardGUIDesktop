@@ -1,5 +1,5 @@
 from numbers import Number
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from customtkinter import CTkBaseClass, CTkFrame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -14,14 +14,14 @@ class PieChart(CTkFrame):
         self,
         master: CTkBaseClass,
         chartService: ChartService,
-        y: Tuple[Number, ...] | Number,
-        labels: Tuple[Any, ...] | Any,
+        y: tuple[Number, ...] | Number,
+        labels: tuple[Any, ...] | Any,
         title: str = "Pie Chart",
         titleColor: str = "black",
         labelColor: str = "black",
         percentColor: str = "black",
-        listColors: Tuple[str, ...] | str | None = None,
-        wedgeprops: Dict | None = None,
+        listColors: tuple[str, ...] | str | None = None,
+        wedgeprops: dict | None = None,
         **kwargs,
     ) -> None:
         self.master = master

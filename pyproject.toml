@@ -5,18 +5,18 @@ description = "EasyCardGUIDesktop is a graphical user interface (GUI) applicatio
 authors = [
     {name = "Macktireh", email = "abdimack97@gmail.com"},
 ]
-requires-python = "==3.12.*"
+requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
 dependencies = [
     "customtkinter>=5.2.2",
     "CTkToolTip>=0.8",
-    "httpx>=0.27.0",
-    "matplotlib>=3.9.1",
-    "packaging>=24.1",
+    "httpx>=0.28.1",
+    "matplotlib>=3.10.0",
+    "packaging>=24.2",
     "python-dotenv>=1.0.1",
-    "Pillow>=10.4.0",
-    "tkinterdnd2>=0.3.0",
+    "Pillow>=11.0.0",
+    "tkinterdnd2>=0.4.2"
 ]
 
 [tool.pdm.dev-dependencies]
@@ -28,11 +28,11 @@ dev = [
 [tool.pdm.scripts]
 start = "python main.py"
 coverage = "coverage report -m && coverage html"
-rufffix = "ruff --fix --exit-zero ."
-ruffformat = "ruff format ."
-ruffcheck = "ruff check ."
+ruffcheck = "ruff check --diff"
+rufffix = "ruff check --fix"
+ruffformat = "ruff format"
 exports = "pdm export -f requirements --without-hashes"
-ruff = {composite = ["rufffix", "ruffformat", "ruffcheck"]}
+lint = {composite = ["rufffix", "ruffformat", "ruffcheck"]}
 
 
 [tool.pdm]

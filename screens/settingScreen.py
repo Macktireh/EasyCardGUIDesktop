@@ -79,9 +79,7 @@ class SettingScreen(CTkFrame):
 
         c = CTkFrame(self.container, fg_color=Color.BG_CONTENT, height=65, width=1100)
         c.pack(pady=(10, 0.5), padx=10)
-        Label(c, text="   Appearance theme", fontSize=14, image=self.THEME_IMAGE, compound="left").place(
-            relx=0.03, rely=0.13
-        )
+        Label(c, text="   Appearance theme", fontSize=14, image=self.THEME_IMAGE, compound="left").place(relx=0.03, rely=0.13)
         self.optionTheme = StringVar(value=self._get_appearance_mode())
         self.themeSelector = CTkOptionMenu(
             c,

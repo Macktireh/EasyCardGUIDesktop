@@ -1,5 +1,3 @@
-from typing import Dict, List, Tuple
-
 from customtkinter import CTkButton, CTkEntry, CTkFont, CTkLabel, CTkOptionMenu, CTkToplevel, ThemeManager
 
 from config.settings import Color
@@ -16,19 +14,19 @@ class Dialog(CTkToplevel):
 
     def __init__(
         self,
-        fg_color: str | Tuple[str, str] | None = Color.BG_CONTENT,
-        text_color: str | Tuple[str, str] | None = None,
-        button_fg_color: str | Tuple[str, str] | None = Color.BG_ACTIVE_BUTTON_NAVIGATION,
-        button_hover_color: str | Tuple[str, str] | None = Color.BG_HOVER_BUTTON_NAVIGATION,
-        button_text_color: str | Tuple[str, str] | None = Color.WHITE,
-        entry_fg_color: str | Tuple[str, str] | None = None,
-        entry_border_color: str | Tuple[str, str] | None = None,
-        entry_text_color: str | Tuple[str, str] | None = None,
-        dropdown_fg_color: str | Tuple[str, str] | None = Color.BG_CONTENT_SECONDARY,
-        dropdown_button_color: str | Tuple[str, str] | None = Color.BG_ACTIVE_BUTTON_NAVIGATION,
-        dropdown_text_color: str | Tuple[str, str] | None = Color.TEXT,
-        dropdown_button_hover_color: str | Tuple[str, str] | None = Color.BG_HOVER_BUTTON_NAVIGATION,
-        dropdown_values: List[str] | None = None,
+        fg_color: str | tuple[str, str] | None = Color.BG_CONTENT,
+        text_color: str | tuple[str, str] | None = None,
+        button_fg_color: str | tuple[str, str] | None = Color.BG_ACTIVE_BUTTON_NAVIGATION,
+        button_hover_color: str | tuple[str, str] | None = Color.BG_HOVER_BUTTON_NAVIGATION,
+        button_text_color: str | tuple[str, str] | None = Color.WHITE,
+        entry_fg_color: str | tuple[str, str] | None = None,
+        entry_border_color: str | tuple[str, str] | None = None,
+        entry_text_color: str | tuple[str, str] | None = None,
+        dropdown_fg_color: str | tuple[str, str] | None = Color.BG_CONTENT_SECONDARY,
+        dropdown_button_color: str | tuple[str, str] | None = Color.BG_ACTIVE_BUTTON_NAVIGATION,
+        dropdown_text_color: str | tuple[str, str] | None = Color.TEXT,
+        dropdown_button_hover_color: str | tuple[str, str] | None = Color.BG_HOVER_BUTTON_NAVIGATION,
+        dropdown_values: list[str] | None = None,
         title: str = "CTkDialog",
         font: tuple | CTkFont | None = None,
         text: str = "CTkDialog",
@@ -36,18 +34,12 @@ class Dialog(CTkToplevel):
         super().__init__(fg_color=fg_color)
         self.centerWindow()
 
-        self._fg_color = (
-            ThemeManager.theme["CTkToplevel"]["fg_color"] if fg_color is None else self._check_color_type(fg_color)
-        )  # noqa: E501
+        self._fg_color = ThemeManager.theme["CTkToplevel"]["fg_color"] if fg_color is None else self._check_color_type(fg_color)  # noqa: E501
         self._text_color = (
-            ThemeManager.theme["CTkLabel"]["text_color"]
-            if text_color is None
-            else self._check_color_type(button_hover_color)
+            ThemeManager.theme["CTkLabel"]["text_color"] if text_color is None else self._check_color_type(button_hover_color)
         )  # noqa: E501
         self._button_fg_color = (
-            ThemeManager.theme["CTkButton"]["fg_color"]
-            if button_fg_color is None
-            else self._check_color_type(button_fg_color)
+            ThemeManager.theme["CTkButton"]["fg_color"] if button_fg_color is None else self._check_color_type(button_fg_color)
         )  # noqa: E501
         self._button_hover_color = (
             ThemeManager.theme["CTkButton"]["hover_color"]
@@ -60,9 +52,7 @@ class Dialog(CTkToplevel):
             else self._check_color_type(button_text_color)
         )  # noqa: E501
         self._entry_fg_color = (
-            ThemeManager.theme["CTkEntry"]["fg_color"]
-            if entry_fg_color is None
-            else self._check_color_type(entry_fg_color)
+            ThemeManager.theme["CTkEntry"]["fg_color"] if entry_fg_color is None else self._check_color_type(entry_fg_color)
         )  # noqa: E501
         self._entry_border_color = (
             ThemeManager.theme["CTkEntry"]["border_color"]
@@ -70,9 +60,7 @@ class Dialog(CTkToplevel):
             else self._check_color_type(entry_border_color)
         )  # noqa: E501
         self._entry_text_color = (
-            ThemeManager.theme["CTkEntry"]["text_color"]
-            if entry_text_color is None
-            else self._check_color_type(entry_text_color)
+            ThemeManager.theme["CTkEntry"]["text_color"] if entry_text_color is None else self._check_color_type(entry_text_color)
         )  # noqa: E501
         self._dropdown_text_color = (
             ThemeManager.theme["CTkOptionMenu"]["text_color"]
@@ -94,7 +82,7 @@ class Dialog(CTkToplevel):
             if dropdown_button_hover_color is None
             else self._check_color_type(dropdown_button_hover_color)
         )  # noqa: E501
-        self._dropdown_values: List[str] = dropdown_values or ["Option 1", "Option 2", "Option 3"]
+        self._dropdown_values: list[str] = dropdown_values or ["Option 1", "Option 2", "Option 3"]
 
         self._user_input: str | None = None
         self._dropdown_value: str | None = None
@@ -194,9 +182,7 @@ class Dialog(CTkToplevel):
                     "<Enter>",
                     lambda e: self._cancel_button.configure(text_color=Color.WHITE, fg_color=self._button_hover_color),
                 )
-                b.bind(
-                    "<Leave>", lambda e: self._cancel_button.configure(text_color=Color.BLACK, fg_color=Color.BG_CARD)
-                )
+                b.bind("<Leave>", lambda e: self._cancel_button.configure(text_color=Color.BLACK, fg_color=Color.BG_CARD))
 
     def _ok_event(self, event=None) -> None:
         code = self._entry.get()
@@ -241,6 +227,6 @@ class Dialog(CTkToplevel):
         y = (self.winfo_screenheight() // 2) - (self.height // 2)
         self.geometry(f"{self.width}x{self.height}+{x}+{y}")
 
-    def get_input(self) -> Dict[str, str | None]:
+    def get_input(self) -> dict[str, str | None]:
         self.master.wait_window(self)
         return {"code": self._user_input, "type": self._dropdown_value}

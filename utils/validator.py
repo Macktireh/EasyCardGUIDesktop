@@ -13,9 +13,7 @@ class Validator:
         Returns:
             bool: True if the image path has a valid format, False otherwise.
         """
-        if imagePath.split(".")[-1].lower() not in Validator.IMAGE_FORMATS:
-            return False
-        return True
+        return not imagePath.split(".")[-1].lower() not in Validator.IMAGE_FORMATS
 
     @staticmethod
     def validateCode(code: str) -> bool:
@@ -30,6 +28,4 @@ class Validator:
         """
         if len(code) != Validator.LENGTH_CODE:
             return False
-        if not code.isdigit():
-            return False
-        return True
+        return code.isdigit()

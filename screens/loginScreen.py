@@ -1,5 +1,5 @@
 import webbrowser
-from typing import Callable
+from collections.abc import Callable
 
 from customtkinter import CTkBaseClass, CTkFrame
 
@@ -15,9 +15,7 @@ class LoginScreen(CTkFrame):
         dark=AssetsImages.CARD_CREDIT_DARK,
     )
 
-    def __init__(
-        self, master: CTkBaseClass, authService: AuthService, callback: Callable[[str], None] | None = None
-    ) -> None:
+    def __init__(self, master: CTkBaseClass, authService: AuthService, callback: Callable[[str], None] | None = None) -> None:
         self.master = master
         self.authService = authService
         self.callback = callback
@@ -46,9 +44,7 @@ class LoginScreen(CTkFrame):
 
         Label(leftFrame, text="", image=self.CARD_CREDIT_IMAGE, imageSize=(450, 300)).pack(pady=20)
 
-        self.email = InputLabel(
-            rightFrame, label="Email", width=300, labelWidth=45, height=50, defaultValue=self._email
-        )
+        self.email = InputLabel(rightFrame, label="Email", width=300, labelWidth=45, height=50, defaultValue=self._email)
         self.email.grid(row=0, column=0, pady=(20, 10))
         self.password = InputLabel(
             rightFrame,
@@ -86,12 +82,10 @@ class LoginScreen(CTkFrame):
         linkSignup.bind("<Leave>", lambda event: linkSignup.configure(font=("Arial", 14), cursor="arrow"))
 
     def handleLogin(self) -> None:
-        # return
         payload = {"email": self.email.getValue(), "password": self.password.getValue()}
         response = self.authService.login(payload)
         if response.is_success:
             self.errorLabel.grid_forget()
-            # self.master.reRenderScreenManager()
             self.master.currentScreen = ScreenName.DASHBOARD
             self.callback(response.json()["apiKey"])
             self.place_forget()

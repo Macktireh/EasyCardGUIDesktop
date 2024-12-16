@@ -1,4 +1,4 @@
-from typing import Literal, Tuple
+from typing import Literal
 
 from customtkinter import CTkBaseClass, CTkFont, CTkImage, CTkLabel
 
@@ -13,7 +13,7 @@ class Label(CTkLabel):
         self,
         master: CTkBaseClass,
         text: str = "Label",
-        textColor: str | Tuple[str, str] = Color.TEXT,
+        textColor: str | tuple[str, str] = Color.TEXT,
         height: int = 50,
         fontFamily: str = "Arial",
         fontSize: int = 12,

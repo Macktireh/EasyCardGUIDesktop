@@ -1,9 +1,10 @@
-""" AnimatedGIF - a class to show an animated gif without blocking the tkinter mainloop()
+"""AnimatedGIF - a class to show an animated gif without blocking the tkinter mainloop()
 
 Copyright (c) 2016 Ole Jakob Skjelten <olesk@pvv.org>
 Released under the terms of the MIT license (https://opensource.org/licenses/MIT) as described in LICENSE.md
 
 """
+
 import sys
 import time
 import tkinter as tk

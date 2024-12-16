@@ -1,4 +1,4 @@
-from typing import Literal, Tuple
+from typing import Literal
 
 from CTkToolTip import CTkToolTip
 from customtkinter import (
@@ -338,7 +338,7 @@ class Navigation(CTkFrame):
                 ),
             )
 
-    def getObjectNavButtonCurrentScreen(self, screen: str) -> Tuple[Image, Button]:
+    def getObjectNavButtonCurrentScreen(self, screen: str) -> tuple[Image, Button]:
         """
         Returns an image constant and the navigation button object associated with the current screen.
 

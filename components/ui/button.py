@@ -1,4 +1,5 @@
-from typing import Callable, Literal, Tuple
+from collections.abc import Callable
+from typing import Literal
 
 from customtkinter import CTkBaseClass, CTkButton, CTkFont, CTkImage
 
@@ -13,7 +14,7 @@ class Button(CTkButton):
         self,
         master: CTkBaseClass,
         text: str = "Button",
-        textColor: str | Tuple | None = Color.TEXT,
+        textColor: str | tuple | None = Color.TEXT,
         fontFamily: str = "Arial",
         fontSize: int = 13,
         fontWeight: Literal["normal", "bold"] = "bold",
