@@ -1,7 +1,6 @@
 import contextlib
 from threading import Thread
 from tkinter import messagebox
-from typing import List
 
 from customtkinter import CTkBaseClass, CTkFrame
 
@@ -13,7 +12,7 @@ from services.creditCardService import CreditCardService
 
 
 class NewCardScreen(CTkFrame):
-    cardNumbers: List[str] = []
+    cardNumbers: list[str] = []
     ADD_IMAGE = imagesTupple(
         light=AssetsImages.ADD_DARK,
         dark=AssetsImages.ADD_DARK,
@@ -94,9 +93,7 @@ class NewCardScreen(CTkFrame):
                 response, _ = self.creditCardService.extractCreditCard(path, callback=self.master.checkAuthentication)
 
                 if response.is_error:
-                    self.master.notify.show(
-                        text=response.json().get("message") or "Failed to extract cards", fg_color=Color.RED
-                    )
+                    self.master.notify.show(text=response.json().get("message") or "Failed to extract cards", fg_color=Color.RED)
                     return
 
                 data = response.json()

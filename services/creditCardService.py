@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Callable, Optional, Tuple
+from collections.abc import Callable
 
 from httpx import Response
 
@@ -8,7 +8,7 @@ from models.types import AllCreditCardDictIn, CreditCardDictIn
 
 class CreditCardService(ABC):
     @abstractmethod
-    def addCreditCard(self, payload: CreditCardDictIn, callback: Optional[Callable[[], None]]) -> Tuple[Response, bool]:
+    def addCreditCard(self, payload: CreditCardDictIn, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Adds a credit card to the database.
 
@@ -22,9 +22,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def addAllCreditCards(
-        self, payload: AllCreditCardDictIn, callback: Optional[Callable[[], None]]
-    ) -> Tuple[Response, bool]:
+    def addAllCreditCards(self, payload: AllCreditCardDictIn, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Adds a list of credit cards to the database.
 
@@ -38,7 +36,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def getAllCreditCards(self, callback: Optional[Callable[[], None]]) -> Tuple[Response, bool]:
+    def getAllCreditCards(self, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Retrieves all credit cards from the database.
 
@@ -51,7 +49,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def getCreditCard(self, id: str, callback: Optional[Callable[[], None]]) -> Tuple[Response, bool]:
+    def getCreditCard(self, id: str, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Retrieves a specific credit card from the database.
 
@@ -65,9 +63,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def updateCreditCard(
-        self, id: str, payload: CreditCardDictIn, callback: Optional[Callable[[], None]]
-    ) -> Tuple[Response, bool]:
+    def updateCreditCard(self, id: str, payload: CreditCardDictIn, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Updates a credit card in the database.
 
@@ -82,7 +78,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def deleteCreditCard(self, id: str, callback: Optional[Callable[[], None]]) -> None:
+    def deleteCreditCard(self, id: str, callback: Callable[[], None] | None) -> None:
         """
         Deletes a credit card from the database.
 
@@ -93,7 +89,7 @@ class CreditCardService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def extractCreditCard(self, path: str, callback: Optional[Callable[[], None]]) -> Tuple[Response, bool]:
+    def extractCreditCard(self, path: str, callback: Callable[[], None] | None) -> tuple[Response, bool]:
         """
         Extracts credit card information from an image file.
 

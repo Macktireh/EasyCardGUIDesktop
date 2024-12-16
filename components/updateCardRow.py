@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from customtkinter import CTkBaseClass, CTkFrame, CTkOptionMenu, StringVar
 
 from components.ui import Button, Input, Label
@@ -27,7 +25,7 @@ class UpdateCardRow(CTkFrame):
         cardType: str = LIST_CARD_TYPES[0],
         width: int = 780,
         height: int = 35,
-        fg_color: str | Tuple[str, str] | None = Color.BG_CARD,
+        fg_color: str | tuple[str, str] | None = Color.BG_CARD,
         **kwargs,
     ) -> None:
         super().__init__(master=master, width=width, height=height, fg_color=fg_color, **kwargs)

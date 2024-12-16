@@ -43,9 +43,9 @@ class SplashScreen(Tk):
             self, image=self.splach_logo, background=Color.BG_SPLASH, width=150, height=150
         ).place(relx=0.32, rely=0.04)
 
-        self.splach_label = Label(
-            self, text="Easy Credit Card", background=Color.BG_SPLASH, font=("Helvetica", 14)
-        ).place(relx=0.32, rely=0.7)
+        self.splach_label = Label(self, text="Easy Credit Card", background=Color.BG_SPLASH, font=("Helvetica", 14)).place(
+            relx=0.32, rely=0.7
+        )
 
         for b in [self.BtnExit]:
             b.bind("<Enter>", self.changeBgColor)

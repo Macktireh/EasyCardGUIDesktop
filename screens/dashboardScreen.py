@@ -42,11 +42,7 @@ class DashboardScreen(CTkFrame):
         _numCardValid = len([card for card in self.master.data if card["isValid"]])
         _numCardInvalid = len([card for card in self.master.data if not card["isValid"]])
         _numNewCard = len(
-            [
-                card
-                for card in self.master.data
-                if card["createdAt"].split("T")[0] == datetime.now().strftime("%Y-%m-%d")
-            ]
+            [card for card in self.master.data if card["createdAt"].split("T")[0] == datetime.now().strftime("%Y-%m-%d")]
         )
 
         # Cards
@@ -57,10 +53,6 @@ class DashboardScreen(CTkFrame):
         self.numberRegisteredCard3 = Card(self.cardFrame, text="New cards", value=_numNewCard)
 
         self.cardFrame.place(relx=0.005, rely=0.015, anchor="nw", relwidth=0.99, relheight=0.315)
-        # self.numCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        # self.numberRegisteredCard.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        # self.numberRegisteredCard2.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
-        # self.numberRegisteredCard3.pack(padx=5, pady=2, side="left", anchor="w", fill="both", expand=True)
         self.numCard.place(relx=0.005, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
         self.numberRegisteredCard.place(relx=0.255, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
         self.numberRegisteredCard2.place(relx=0.505, rely=0.005, anchor="nw", relwidth=0.24, relheight=0.67)
@@ -78,9 +70,6 @@ class DashboardScreen(CTkFrame):
         self.renderChart()
 
     def renderChart(self) -> None:
-        # x_values = ["A", "B", "C", "D", "E"]
-        # y_values_bar = [100, 200, 600, 400, 500]
-        # y_values_donut = [10, 40, 30, 20, 50]
         pieData = [
             {"label": "500 fdj", "value": len([card for card in self.master.data if card["cardType"] == "500"])},
             {"label": "1000 fdj", "value": len([card for card in self.master.data if card["cardType"] == "1000"])},

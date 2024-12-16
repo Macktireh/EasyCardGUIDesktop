@@ -8,8 +8,8 @@ from services.authServiceImpl import AuthServiceImpl
 
 
 class App(CTk, DnDWrapper):
-    width: int = 1200
-    height: int = 700
+    width: int = 1280
+    height: int = 720
 
     def __init__(self) -> None:
         super().__init__()
@@ -17,11 +17,11 @@ class App(CTk, DnDWrapper):
         self.title("EasyCard")
         self.iconbitmap(AssetsImages.ICON)
         self.minsize(800, 600)
-        self.centerWindow()
+        self._center_window()
 
         self.authService = AuthServiceImpl()
 
-        self.currentScreen = ScreenName.DASHBOARD if self.isAuthenticate() else ScreenName.LOGIN
+        self.currentScreen = ScreenName.DASHBOARD if self.is_authenticate() else ScreenName.LOGIN
 
         self.navigation = Navigation(self, height=self._current_height)
         self.screenManager = ScreenManager(
@@ -34,14 +34,14 @@ class App(CTk, DnDWrapper):
         self.navigation.pack(side="left", fill="y")
         self.screenManager.pack(side="right", fill="both", expand=True)
 
-    def centerWindow(self) -> None:
+    def _center_window(self) -> None:
         """Center the application window on the screen."""
         self.update_idletasks()
         x = (self.winfo_screenwidth() // 2) - (self.width // 2)
         y = (self.winfo_screenheight() // 2) - (self.height // 2)
         self.geometry(f"{self.width}x{self.height}+{x}+{y}")
 
-    def setTitle(self, title: str) -> None:
+    def set_title(self, title: str) -> None:
         """
         Set the title of the application window.
 
@@ -59,7 +59,7 @@ class App(CTk, DnDWrapper):
         """
         self.navigation.navigate(screen)
 
-    def isAuthenticate(self) -> bool:
+    def is_authenticate(self) -> bool:
         """
         Check if the user is authenticated and return a boolean value.
         """

@@ -1,7 +1,6 @@
 from numbers import Number
 from tkinter import Scrollbar
 from tkinter.ttk import Style, Treeview
-from typing import List
 
 from customtkinter import CTkFrame
 
@@ -9,7 +8,7 @@ from config.settings import Color
 
 
 class Table(CTkFrame):
-    def __init__(self, master, colums: List[str], rows: List[List[str | Number | None]]):
+    def __init__(self, master, colums: list[str], rows: list[list[str | Number | None]]):
         self.master = master
         self.colums = colums
         self.rows = rows
@@ -19,7 +18,7 @@ class Table(CTkFrame):
 
         self.Table(self.colums, self.rows)
 
-    def Table(self, colums: List[str], rows: List[List[str | Number | None]]):
+    def Table(self, colums: list[str], rows: list[list[str | Number | None]]):
         # Add Some Style
         style = Style()
         style.theme_use("clam")
@@ -91,7 +90,7 @@ class Table(CTkFrame):
         # last_Item = self.tv_All_Data.item(last_row)
         # print("last_Item", last_Item)
 
-    def add_row(self, row: List[str | Number | None]) -> None:
+    def add_row(self, row: list[str | Number | None]) -> None:
         if self.count % 2 == 0:
             self.tv_All_Data.insert(
                 "",

@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from tkinter import NORMAL, StringVar
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any
 
 from customtkinter import CTkBaseClass, CTkEntry, CTkFont
 
@@ -12,19 +13,19 @@ class Input(CTkEntry):
         master: CTkBaseClass,
         width: int = 140,
         height: int = 28,
-        corner_radius: Optional[int] = None,
-        border_width: Optional[int] = None,
-        bg_color: Union[str, Tuple[str, str]] = Color.TRANSPARENT,
-        fg_color: Optional[Union[str, Tuple[str, str]]] = None,
-        border_color: Optional[Union[str, Tuple[str, str]]] = None,
-        text_color: Optional[Union[str, Tuple[str, str]]] = None,
-        placeholder_text_color: Optional[Union[str, Tuple[str, str]]] = None,
+        corner_radius: int | None = None,
+        border_width: int | None = None,
+        bg_color: str | tuple[str, str] = Color.TRANSPARENT,
+        fg_color: str | tuple[str, str] | None = None,
+        border_color: str | tuple[str, str] | None = None,
+        text_color: str | tuple[str, str] | None = None,
+        placeholder_text_color: str | tuple[str, str] | None = None,
         # textvariable: Union[Variable, None] = None,
-        placeholder_text: Union[str, None] = None,
-        font: Optional[Union[tuple, CTkFont]] = None,
+        placeholder_text: str | None = None,
+        font: tuple | CTkFont | None = None,
         state: str = NORMAL,
-        defaultValue: Optional[str] = "",
-        on_change_callback: Optional[Callable[[StringVar], Any]] = None,
+        defaultValue: str | None = "",
+        on_change_callback: Callable[[StringVar], Any] | None = None,
         **kwargs,
     ) -> None:
         self.on_change_callback = on_change_callback
@@ -70,7 +71,7 @@ class Input(CTkEntry):
         else:
             self.configure(show="")
 
-    def onChange(self, *args: Tuple[Any, ...]) -> None:
+    def onChange(self, *args: tuple[Any, ...]) -> None:
         if self.on_change_callback is not None:
             self.on_change_callback(self.var)
             return

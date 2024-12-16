@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from tkinter import BOTTOM, X, filedialog
-from typing import Any, Callable, Tuple
+from typing import Any
 
 from CTkToolTip import CTkToolTip
 from customtkinter import CTkBaseClass, CTkFrame
@@ -29,7 +30,7 @@ class DragAndDrop(CTkFrame):
         self,
         master: CTkBaseClass,
         extractCode: Callable[[str], None],
-        fg_color: str | Tuple[str, str] | None = Color.BG_CARD,
+        fg_color: str | tuple[str, str] | None = Color.BG_CARD,
         **kwargs,
     ) -> None:
         super().__init__(master, fg_color=fg_color, **kwargs)

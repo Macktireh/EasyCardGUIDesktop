@@ -15,7 +15,6 @@ from screens.dataScreen import DataScreen
 from screens.loginScreen import LoginScreen
 from screens.newCardScreen import NewCardScreen
 from screens.settingScreen import SettingScreen
-from screens.splashScreen import SplashScreen
 from services.authService import AuthService
 from services.creditCardServiceImpl import CreditCardServiceImpl
 from services.matplotlibService import MatplotlibService
@@ -44,9 +43,7 @@ class ScreenManager(CTkFrame):
             text="The API key is either not valid or could not be found. Please check your API key or reconnect again.",
         )
 
-        response, _ = self.creditCardService.getAllCreditCards()
-
-        self.data = response.json() if response.is_success else []
+        self.data = self.getData()
 
         self.initializeScreens()
         self.loginScreen = LoginScreen(self.master, self.authService, self.onLoginSuccess)
@@ -86,7 +83,7 @@ class ScreenManager(CTkFrame):
         self.modal = Modal(self)
         self.notify = Notify(self)
 
-    def getData(self) -> list[CreditCardDictOut] | None:
+    def getData(self) -> list[CreditCardDictOut] | list:
         response, _ = self.creditCardService.getAllCreditCards()
         return response.json() if response.is_success else []
 
@@ -105,12 +102,6 @@ class ScreenManager(CTkFrame):
             ScreenName.LOGIN: (self.loginScreen, ScreenName.LOGIN_TITLE),
         }
 
-        # for name, (screen_obj, title) in screens.items():
-        #     if screen == name:
-        #         screen_obj.pack(expand=True, fill="both")
-        #         self.master.set_title(title)
-        #     else:
-        #         screen_obj.pack_forget()
         for name, (screen_obj, title) in screens.items():
             if screen == name:
                 if screen == ScreenName.LOGIN:
@@ -119,10 +110,7 @@ class ScreenManager(CTkFrame):
                     screen_obj.pack(expand=True, fill="both")
                 self.master.set_title(title)
             else:
-                if screen == ScreenName.LOGIN:
-                    continue
-                    # screen_obj.place_forget()
-                else:
+                if screen != ScreenName.LOGIN:
                     screen_obj.pack_forget()
 
     def changeScreen(self, screen: str) -> None:
@@ -187,14 +175,3 @@ class ScreenManager(CTkFrame):
 
         self.master.destroy()
         App().mainloop()
-
-
-__all__ = [
-    "ScreenManager",
-    "LoginScreen",
-    "DashboardScreen",
-    "NewCardScreen",
-    "DataScreen",
-    "SettingScreen",
-    "SplashScreen",
-]

@@ -1,5 +1,5 @@
 from numbers import Number
-from typing import Any, Tuple
+from typing import Any
 
 from customtkinter import CTkBaseClass, CTkFrame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -14,14 +14,14 @@ class BarChart(CTkFrame):
         self,
         master: CTkBaseClass,
         chartService: ChartService,
-        x: Tuple[Any, ...] | Any,
-        y: Tuple[Number, ...] | Number,
+        x: tuple[Any, ...] | Any,
+        y: tuple[Number, ...] | Number,
         title: str = "Bar Chart",
         x_label: str = "X-axis",
         y_label: str = "Y-axis",
         titleColor: str = "black",
         barColor: str = "skyblue",
-        labelColor: Tuple[str, str] = ("black", "black"),
+        labelColor: tuple[str, str] = ("black", "black"),
         **kwargs,
     ) -> None:
         self.master = master

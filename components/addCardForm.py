@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from customtkinter import CTkBaseClass, CTkScrollableFrame
 
 from components.updateCardRow import UpdateCardRow
@@ -27,14 +25,14 @@ class AddCardForm(CTkScrollableFrame):
         master: CTkBaseClass,
         width: int = 1050,
         height: int = 250,
-        fg_color: str | Tuple[str, str] | None = Color.BG_CARD,
+        fg_color: str | tuple[str, str] | None = Color.BG_CARD,
         **kwargs,
     ) -> None:
         super().__init__(master=master, width=width, height=height, fg_color=fg_color, **kwargs)
         self.master = master
         self.width = width
 
-    def _render(self, cardNumbers: List[str]) -> None:
+    def _render(self, cardNumbers: list[str]) -> None:
         _LIST_ROW_WIDGET_NAMES = []
         for i, code in enumerate(cardNumbers):
             u = UpdateCardRow(master=self, _id=i + 1, code=code, width=self.width * 0.95)
@@ -42,7 +40,7 @@ class AddCardForm(CTkScrollableFrame):
             _LIST_ROW_WIDGET_NAMES.append(u.winfo_name())
         return _LIST_ROW_WIDGET_NAMES
 
-    def render(self, cardNumbers: List[str]) -> None:
+    def render(self, cardNumbers: list[str]) -> None:
         self.LIST_ROW_WIDGET_NAMES = self._render(cardNumbers)
 
     def add(self, creditCardDictIn: CreditCardDictIn) -> None:
@@ -55,10 +53,10 @@ class AddCardForm(CTkScrollableFrame):
         u.pack(padx=10, pady=8)
         self.LIST_ROW_WIDGET_NAMES.append(u.winfo_name())
 
-    def getFormsData(self) -> List[CreditCardDictIn]:
+    def getFormsData(self) -> list[CreditCardDictIn]:
         return [self.nametowidget(name).getFormData() for name in self.LIST_ROW_WIDGET_NAMES]
 
-    def updateRender(self, cardNumbers: List[str]) -> None:
+    def updateRender(self, cardNumbers: list[str]) -> None:
         for name in self.LIST_ROW_WIDGET_NAMES:
             self.nametowidget(name).destroy()
 

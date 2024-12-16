@@ -1,7 +1,7 @@
 import os
 from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import List, Literal, Tuple
+from typing import Literal
 
 import darkdetect
 
@@ -43,27 +43,7 @@ def rcParams(theme: Literal["dark", "light"]) -> RCParams:
     )
 
 
-# data = [
-#     {
-#         "publicId": "0dbcf58321f240b2a7b385fbfc80b9df",
-#         "code": "769253652678",
-#         "cardType": "1000",
-#         "isValid": True,
-#         "createdAt": "2024-02-23T18:49:02.311646",
-#         "updatedAt": "2024-02-28T02:48:10.311646",
-#     },
-#     {
-#         "publicId": "7ed16939bca14bd5b642e62a272ebeac",
-#         "code": "256788291246",
-#         "cardType": "2000",
-#         "isValid": False,
-#         "createdAt": "2024-02-17T07:08:38.455943",
-#         "updatedAt": "2024-03-02T05:57:47.455943",
-#     },
-# ]
-
-
-def TimestampToDatetime(row: List) -> List:
+def TimestampToDatetime(row: list) -> list:
     """
     Takes a list of strings and returns a list with 'createdAt', 'updatedAt' in the format 'YYYY-MM-DD HH:MM:SS'
 
@@ -80,7 +60,7 @@ def TimestampToDatetime(row: List) -> List:
     return row
 
 
-def dataToTable(data: CreditCardDictOut) -> Tuple[List[str], List[List[str | int | bool | None]]]:
+def dataToTable(data: CreditCardDictOut) -> tuple[list[str], list[list]]:
     """
     Takes a data dict as argument and returns a tuple of columns: list[str], rows: list[list[str | int | None]].
 
@@ -96,7 +76,7 @@ def dataToTable(data: CreditCardDictOut) -> Tuple[List[str], List[List[str | int
     return columns, rows
 
 
-def getCardsCreatedWeekAgo(cards):
+def getCardsCreatedWeekAgo(cards) -> tuple[list, list[int]]:
     cards_per_day = defaultdict(int)
 
     # Date actuelle
